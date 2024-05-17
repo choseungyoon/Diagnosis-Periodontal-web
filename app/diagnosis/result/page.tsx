@@ -1,5 +1,5 @@
 "use client";
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState, Suspense } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Dialog } from "@headlessui/react";
 import { useSearchParams } from "next/navigation";
@@ -28,7 +28,7 @@ const navigation = [
   { name: "DIAGNOSIS", href: "/diagnosis" },
 ];
 
-export default function DiagnosisResult() {
+export default function ResultContent() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [data, setData] = useState(null);
   const searchParams = useSearchParams();
@@ -228,3 +228,11 @@ export default function DiagnosisResult() {
     </div>
   );
 }
+
+const Result = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResultContent />
+    </Suspense>
+  );
+};

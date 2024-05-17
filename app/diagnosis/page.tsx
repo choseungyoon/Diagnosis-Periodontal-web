@@ -208,7 +208,12 @@ const DiagnosisPage = () => {
               <button
                 //onClick={handleUpload}
                 onClick={openModal}
-                className="text-base px-2 bg-violet-500 text-white  rounded-xl hover:bg-violet-600  transition-colors"
+                //className="text-base px-2 bg-violet-500 text-white  rounded-xl hover:bg-violet-600  transition-colors"
+                className={`px-4 py-2 rounded ${
+                  file
+                    ? " text-base px-2  text-white bg-violet-500 hover:bg-violet-600  transition-colors"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
               >
                 Diagnosis Now
               </button>

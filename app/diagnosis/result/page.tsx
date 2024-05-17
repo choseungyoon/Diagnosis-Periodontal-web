@@ -28,7 +28,7 @@ const navigation = [
   { name: "DIAGNOSIS", href: "/diagnosis" },
 ];
 
-export default function ResultContent() {
+const ResultContent = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [data, setData] = useState(null);
   const searchParams = useSearchParams();
@@ -227,7 +227,7 @@ export default function ResultContent() {
       </div>
     </div>
   );
-}
+};
 
 const Result = () => {
   return (
@@ -236,3 +236,5 @@ const Result = () => {
     </Suspense>
   );
 };
+
+export default Result;

@@ -1,15 +1,101 @@
 "use client";
-import { useState } from "react";
-import { Dialog } from "@headlessui/react";
+import { SetStateAction, useEffect, useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Dialog } from "@headlessui/react";
+import { useSearchParams } from "next/navigation";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const navigation = [
   { name: "HOME", href: "/" },
   { name: "DIAGNOSIS", href: "/diagnosis" },
 ];
 
-export default function Example() {
+export default function DiagnosisResult() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [data, setData] = useState(null);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const dataParam = searchParams.get("data");
+    if (dataParam) {
+      try {
+        const parsedData = JSON.parse(dataParam);
+        setData(parsedData);
+      } catch (error) {
+        console.error("Failed to parse data:", error);
+      }
+    }
+  }, [searchParams]);
+
+  if (!data) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  // 예시 데이터: 실제 데이터 형식에 맞게 수정하세요.
+  const features = [
+    { Accession: "Protein A", Abundances: 10 },
+    { Accession: "Protein B", Abundances: 15 },
+    { Accession: "Protein C", Abundances: 5 },
+    { Accession: "Protein D", Abundances: 20 },
+    { Accession: "Protein E", Abundances: 12 },
+    { Accession: "Protein F", Abundances: 8 },
+    { Accession: "Protein G", Abundances: 18 },
+    { Accession: "Protein H", Abundances: 6 },
+    { Accession: "Protein I", Abundances: 11 },
+    { Accession: "Protein J", Abundances: 9 },
+  ];
+  const chartData = {
+    labels: features.map((f) => f.Accession),
+    datasets: [
+      {
+        label: "Abundances",
+        data: features.map((f) => f.Abundances),
+        backgroundColor: features.map(
+          (f) => `rgba(${Math.min(255, f.Abundances * 10)}, 99, 132, 0.2)`
+        ),
+        borderColor: features.map(
+          (f) => `rgba(${Math.min(255, f.Abundances * 10)}, 99, 132, 1)`
+        ),
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    indexAxis: "y" as const, // 수평형 막대 차트로 변경
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+      title: {
+        display: true,
+        text: "Top 10 Features Influencing the Result",
+      },
+    },
+  };
 
   return (
     <div className="bg-white">
@@ -110,7 +196,7 @@ export default function Example() {
         </Dialog>
       </header>
 
-      <div className="relative isolate px-6 pt-14 lg:px-8">
+      <div className="relative isolate px-6 pt-14 lg:px-8 *:font-serif">
         <div
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
           aria-hidden="true"
@@ -123,51 +209,20 @@ export default function Example() {
             }}
           />
         </div>
-        <div className="px-8  py-16 sm:py-48 lg:py-56 flex justify-between items-start gap-20">
-          <div className=" *:font-serif">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Health.
-            </h1>
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-              Diagnosis Periodontitis.
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Supporting better health outcomes and clinical excellence with
-              intelligent technology.
-            </p>
-            <div className="mt-10 flex items-center gap-x-6">
-              <a
-                href="/diagnosis"
-                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Diagnosis Now
-              </a>
+        <div className="flex flex-col rounded-lg mt-10 px-8">
+          <div className="pt-10">
+            <h2 className="text-3xl font-bold mb-4">
+              Diagnosis Result : <span className="uppercase">{data}</span>
+            </h2>
+          </div>
+
+          <div className="flex">
+            <div className="w-full flex items-center justify-center  p-4 *:font-serif rounded-lg">
+              <div className=" p-6 rounded-lg shadow-2xl w-full h-full">
+                <Bar data={chartData} options={chartOptions} />
+              </div>
             </div>
           </div>
-          <div>
-            <div className="p-10 bg-white shadow-lg rounded-lg">
-              <p className="text-xl text-gray-900">
-                Check for the disease early {"\n"}
-                {"\n"}
-                {"\n"}
-                <span className="font-bold">in advance</span>
-                {"\n"}
-                through Artificial intelligence
-              </p>
-            </div>
-          </div>
-        </div>
-        <div
-          className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-          aria-hidden="true"
-        >
-          <div
-            className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-            style={{
-              clipPath:
-                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-            }}
-          />
         </div>
       </div>
     </div>

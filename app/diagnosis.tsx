@@ -2,7 +2,6 @@
 import axios from "axios";
 import Head from "next/head";
 import { SetStateAction, useState } from "react";
-import Modal from "./diagnosis/DiagnosisModal"; // Adjust the path as necessary
 
 const DiagnosisPage = () => {
   const [file, setFile] = useState<File | null>(null);

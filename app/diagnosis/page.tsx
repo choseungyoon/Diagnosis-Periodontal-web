@@ -68,15 +68,6 @@ const DiagnosisPage = () => {
       setFile(event.target.files[0]);
     }
   };
-  const handleTest = async () => {
-    try {
-      const response = await axios.get("https://api.diagnosis-api.com");
-      //alert(response.data["output"]);
-      alert(response.data);
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    }
-  };
 
   const handleUpload = async () => {
     if (file) {
@@ -109,11 +100,6 @@ const DiagnosisPage = () => {
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              />
             </a>
           </div>
           <div className="flex lg:hidden">
@@ -225,12 +211,6 @@ const DiagnosisPage = () => {
                 className="text-base px-2 bg-violet-500 text-white  rounded-xl hover:bg-violet-600  transition-colors"
               >
                 Diagnosis Now
-              </button>
-              <button
-                onClick={handleTest}
-                className="text-base px-2 bg-violet-500 text-white  rounded-xl hover:bg-violet-600  transition-colors"
-              >
-                TEST
               </button>
             </div>
             <div>

@@ -76,7 +76,7 @@ const DiagnosisPage = () => {
 
       try {
         const response = await axios.post(
-          "https://3.35.10.40:5000/diagnosis/",
+          "https://api.diagnosis-api.com/diagnosis",
           formData,
           {
             headers: {

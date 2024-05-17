@@ -47,7 +47,7 @@ const DiagnosisPage = () => {
         data: JSON.stringify(apiResponse),
       }).toString();
 
-      router.push(`/diagnosis/result?${queryString}`);
+      router.push("/diagnosis/result?" + queryString);
     } else {
       const timer = setTimeout(() => {
         setCurrentStep((prev) => (prev < 4 ? prev + 1 : 1));

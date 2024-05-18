@@ -118,7 +118,7 @@ export default function Example() {
             }}
           />
         </div>
-        <div className="px-8  py-16 sm:py-48 lg:py-56 flex justify-between items-start gap-20">
+        <div className="px-8  py-16 sm:py-48 lg:py-56 flex flex-col md:flex-row justify-between items-start gap-20">
           <div className=" *:font-serif">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
               Health.

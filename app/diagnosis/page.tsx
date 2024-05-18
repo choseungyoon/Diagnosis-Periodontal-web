@@ -197,13 +197,13 @@ const DiagnosisPage = () => {
             }}
           />
         </div>
-        <div className=" relative isolate px-6 pt-14 lg:px-8">
+        <div className="relative isolate px-6 pt-14 lg:px-8">
           <div className="flex flex-col justify-center items-center">
-            <div className="flex w-2/3 gap-3 justify-center">
+            <div className="flex w-full gap-3 justify-center flex-col md:flex-row">
               <input
                 onChange={handleFileChange}
                 type="file"
-                className="text-base rounded-xl w-3/4 text-gray-400 font-semibold bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500"
+                className="text-base rounded-xl w-full md:w-3/4 text-gray-400 font-semibold bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500"
               />
               <button
                 //onClick={handleUpload}

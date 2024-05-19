@@ -98,8 +98,9 @@ const DiagnosisPage = () => {
           aria-label="Global"
         >
           <div className="flex lg:flex-1">
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
+            <a href="/" className="-m-1.5 p-1.5">
+              <span className="sr-only">BASIL BIOTECH</span>
+              <img className="h-8 w-auto" src="./logo.png" alt="" />
             </a>
           </div>
           <div className="flex lg:hidden">
@@ -276,11 +277,11 @@ const DiagnosisPage = () => {
             </div>
           </div>
         </div>
-        <div className="px-28 py-10">
+        {/* <div className="px-28 py-10">
           <div>
             <span className="font-semibold text-2xl">KEY FEATURES</span>
           </div>
-        </div>
+        </div> */}
       </div>
       <Modal
         isOpen={isModalOpen}

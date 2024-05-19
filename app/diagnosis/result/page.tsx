@@ -55,16 +55,16 @@ const ResultContent = () => {
 
   // 예시 데이터: 실제 데이터 형식에 맞게 수정하세요.
   const features = [
-    { Accession: "Protein A", Abundances: 10 },
-    { Accession: "Protein B", Abundances: 15 },
-    { Accession: "Protein C", Abundances: 5 },
-    { Accession: "Protein D", Abundances: 20 },
-    { Accession: "Protein E", Abundances: 12 },
-    { Accession: "Protein F", Abundances: 8 },
-    { Accession: "Protein G", Abundances: 18 },
-    { Accession: "Protein H", Abundances: 6 },
-    { Accession: "Protein I", Abundances: 11 },
-    { Accession: "Protein J", Abundances: 9 },
+    { Accession: "P05164", Abundances: 10 },
+    { Accession: "P18510", Abundances: 15 },
+    { Accession: "Q9NYQ7-2", Abundances: 5 },
+    { Accession: "P19652", Abundances: 20 },
+    { Accession: "A0A0G2JMB2", Abundances: 12 },
+    { Accession: "P06753-2", Abundances: 8 },
+    { Accession: "A0A087WVQ6", Abundances: 18 },
+    { Accession: "P60709", Abundances: 6 },
+    { Accession: "A0A286YEY4", Abundances: 11 },
+    { Accession: "A0A0A0MS08", Abundances: 9 },
   ];
   const chartData = {
     labels: features.map((f) => f.Accession),

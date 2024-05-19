@@ -77,6 +77,7 @@ const DiagnosisPage = () => {
       try {
         const response = await axios.post(
           "https://api.diagnosis-api.com/diagnosis",
+          //"http://localhost:8000/diagnosis",
           formData
         );
         //alert(response.data["output"]);

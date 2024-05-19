@@ -1,5 +1,5 @@
 "use client";
-import { SetStateAction, useEffect, useState, Suspense } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Dialog } from "@headlessui/react";
 import { useSearchParams } from "next/navigation";
@@ -23,27 +23,73 @@ ChartJS.register(
   Legend
 );
 
+interface Protein {
+  protein: string;
+  importance: number;
+  abundance: number;
+}
+
+interface DiagnosisData {
+  predicted_result: string;
+  important_proteins: Protein[];
+}
+
 const navigation = [
   { name: "HOME", href: "/" },
   { name: "DIAGNOSIS", href: "/diagnosis" },
 ];
 
+type AnyObject = { [key: string]: any };
+
+// 데이터 키를 소문자로 변환하는 함수
+const toLowerCaseKeys = (obj: any): any => {
+  if (Array.isArray(obj)) {
+    return obj.map(toLowerCaseKeys);
+  } else if (obj !== null && typeof obj === "object") {
+    return Object.keys(obj).reduce((acc: { [key: string]: any }, key) => {
+      acc[key.toLowerCase()] = toLowerCaseKeys(obj[key]);
+      return acc;
+    }, {});
+  }
+  return obj;
+};
+
 const ResultContent = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<DiagnosisData | null>(null);
   const searchParams = useSearchParams();
 
   useEffect(() => {
     const dataParam = searchParams.get("data");
     if (dataParam) {
       try {
-        const parsedData = JSON.parse(dataParam);
-        setData(parsedData);
+        let parsedData = JSON.parse(dataParam);
+        console.log("Parsed Data (first parse):", parsedData); // 첫 번째 파싱 확인
+
+        if (typeof parsedData === "string") {
+          parsedData = JSON.parse(parsedData);
+          console.log(typeof parsedData);
+          console.log("Parsed Data (second parse):", parsedData); // 두 번째 파싱 확인
+        }
+
+        setData(parsedData as DiagnosisData);
       } catch (error) {
         console.error("Failed to parse data:", error);
       }
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    if (data) {
+      console.log("Data after setting:", data);
+      console.log(typeof data);
+
+      console.log(data.predicted_result as string);
+
+      console.log("Predicted Result:", data.predicted_result); // 변환된 데이터 확인
+      console.log("Features:", data.important_proteins); // 변환된 데이터 확인
+    }
+  }, [data]);
 
   if (!data) {
     return (
@@ -53,31 +99,28 @@ const ResultContent = () => {
     );
   }
 
-  // 예시 데이터: 실제 데이터 형식에 맞게 수정하세요.
-  const features = [
-    { Accession: "P05164", Abundances: 10 },
-    { Accession: "P18510", Abundances: 15 },
-    { Accession: "Q9NYQ7-2", Abundances: 5 },
-    { Accession: "P19652", Abundances: 20 },
-    { Accession: "A0A0G2JMB2", Abundances: 12 },
-    { Accession: "P06753-2", Abundances: 8 },
-    { Accession: "A0A087WVQ6", Abundances: 18 },
-    { Accession: "P60709", Abundances: 6 },
-    { Accession: "A0A286YEY4", Abundances: 11 },
-    { Accession: "A0A0A0MS08", Abundances: 9 },
-  ];
+  const predictedResult = data.predicted_result;
+  const features = data.important_proteins || [];
+
   const chartData = {
-    labels: features.map((f) => f.Accession),
+    labels: features.map((f) => f.protein),
     datasets: [
       {
-        label: "Abundances",
-        data: features.map((f) => f.Abundances),
+        label: "Importance",
+        data: features.map((f) => f.importance),
         backgroundColor: features.map(
-          (f) => `rgba(${Math.min(255, f.Abundances * 10)}, 99, 132, 0.2)`
+          (f) => `rgba(75, 192, 192, ${f.importance * 50})`
         ),
-        borderColor: features.map(
-          (f) => `rgba(${Math.min(255, f.Abundances * 10)}, 99, 132, 1)`
+        borderColor: features.map((f) => `rgba(75, 192, 192, 1)`),
+        borderWidth: 1,
+      },
+      {
+        label: "Abundance",
+        data: features.map((f) => f.abundance),
+        backgroundColor: features.map(
+          (f) => `rgba(153, 102, 255, ${f.importance * 50})`
         ),
+        borderColor: features.map((f) => `rgba(153, 102, 255, 1)`),
         borderWidth: 1,
       },
     ],
@@ -92,7 +135,7 @@ const ResultContent = () => {
       },
       title: {
         display: true,
-        text: "Top 10 Features Influencing the Result",
+        text: "Top 10 Important Proteins",
       },
     },
   };
@@ -107,7 +150,7 @@ const ResultContent = () => {
           <div className="flex lg:flex-1">
             <a href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">BASIL BIOTECH</span>
-              <img className="h-8 w-auto" src="./logo.png" alt="" />
+              <img className="h-8 w-auto" src="/logo.png" alt="" />
             </a>
           </div>
           <div className="flex lg:hidden">
@@ -208,7 +251,8 @@ const ResultContent = () => {
         <div className="flex flex-col rounded-lg mt-10 px-8">
           <div className="pt-10">
             <h2 className="text-3xl font-bold mb-4">
-              Diagnosis Result : <span className="uppercase">{data}</span>
+              Diagnosis Result :{" "}
+              <span className="uppercase">{predictedResult}</span>
             </h2>
           </div>
 

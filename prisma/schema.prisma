@@ -24,9 +24,9 @@ model result {
 
 model protein {
   id         Int      @id @default(autoincrement())
-  name       String
+  protein    String
   importance Float
-  abundance  BigInt
+  abundance  Float
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   result     result   @relation(fields: [resultId], references: [id], onDelete: Cascade)

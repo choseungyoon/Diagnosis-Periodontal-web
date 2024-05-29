@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import Head from "next/head";
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useActionState, useEffect, useState } from "react";
 import Link from "next/link";
 
 import React from "react";
@@ -10,11 +10,25 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Modal from "@/components/modal";
 import { useRouter } from "next/navigation";
+import { PrismaClient } from "@prisma/client";
 
 const navigation = [
   { name: "HOME", href: "/" },
   { name: "DIAGNOSIS", href: "/diagnosis" },
 ];
+
+const db = new PrismaClient();
+
+interface Protein {
+  protein: string;
+  importance: number;
+  abundance: number;
+}
+
+interface DiagnosisData {
+  predicted_result: string;
+  important_proteins: Protein[];
+}
 
 const DiagnosisPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,11 +57,35 @@ const DiagnosisPage = () => {
     if (!isModalOpen) return;
 
     if (apiResponse) {
-      const queryString = new URLSearchParams({
-        data: JSON.stringify(apiResponse),
-      }).toString();
+      let parsedData = JSON.parse(apiResponse);
+      const resultData = parsedData as DiagnosisData;
 
-      router.push("/diagnosis/result?" + queryString);
+      const saveResult = async () => {
+        try {
+          const response = await fetch("/api/result", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userName: "John Doe", // 예시 값, 실제 사용자 이름으로 변경
+              predictedResult: resultData.predicted_result,
+              proteins: resultData.important_proteins,
+            }),
+          });
+
+          if (response.ok) {
+            const result = await response.json();
+            router.push(`/diagnosis/result?resultId=${result.id}`);
+          } else {
+            console.error("Failed to save result");
+          }
+        } catch (error) {
+          console.error("An error occurred while saving the result:", error);
+        }
+      };
+
+      saveResult();
     } else {
       const timer = setTimeout(() => {
         setCurrentStep((prev) => (prev < 4 ? prev + 1 : 1));
@@ -81,7 +119,7 @@ const DiagnosisPage = () => {
           formData
         );
         //alert(response.data["output"]);
-        console.log(response.data);
+        //console.log(response.data);
         return response.data["output"];
       } catch (error) {
         console.error("Error uploading file:", error);

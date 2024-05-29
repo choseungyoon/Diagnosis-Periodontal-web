@@ -13,6 +13,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { PrismaClient } from "@prisma/client";
 
 ChartJS.register(
   CategoryScale,
@@ -39,6 +40,8 @@ const navigation = [
   { name: "DIAGNOSIS", href: "/diagnosis" },
 ];
 
+const db = new PrismaClient();
+
 type AnyObject = { [key: string]: any };
 
 // 데이터 키를 소문자로 변환하는 함수
@@ -64,12 +67,12 @@ const ResultContent = () => {
     if (dataParam) {
       try {
         let parsedData = JSON.parse(dataParam);
-        console.log("Parsed Data (first parse):", parsedData); // 첫 번째 파싱 확인
+        //console.log("Parsed Data (first parse):", parsedData); // 첫 번째 파싱 확인
 
         if (typeof parsedData === "string") {
           parsedData = JSON.parse(parsedData);
-          console.log(typeof parsedData);
-          console.log("Parsed Data (second parse):", parsedData); // 두 번째 파싱 확인
+          //console.log(typeof parsedData);
+          //console.log("Parsed Data (second parse):", parsedData); // 두 번째 파싱 확인
         }
 
         setData(parsedData as DiagnosisData);

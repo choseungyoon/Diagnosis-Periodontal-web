@@ -30,11 +30,6 @@ interface Protein {
   abundance: number;
 }
 
-interface DiagnosisData {
-  predicted_result: string;
-  important_proteins: Protein[];
-}
-
 interface Protein {
   id: number;
   name: string;
@@ -61,7 +56,6 @@ const db = new PrismaClient();
 const ResultContent = () => {
   const searchParams = useSearchParams();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [data, setData] = useState<DiagnosisData | null>(null);
   const [result, setResult] = useState<Result | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -91,7 +85,11 @@ const ResultContent = () => {
   }, [resultId]);
 
   if (!result) {
-    return <div>Result not found</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <p>Loading...</p>
+      </div>
+    );
   }
 
   if (loading) {

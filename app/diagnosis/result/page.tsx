@@ -35,6 +35,22 @@ interface DiagnosisData {
   important_proteins: Protein[];
 }
 
+interface Protein {
+  id: number;
+  name: string;
+  importance: number;
+  abundance: number;
+}
+
+interface Result {
+  id: number;
+  userName: string;
+  predictedResult: string;
+  createdAt: string;
+  updatedAt: string;
+  protein: Protein[];
+}
+
 const navigation = [
   { name: "HOME", href: "/" },
   { name: "DIAGNOSIS", href: "/diagnosis" },
@@ -42,59 +58,43 @@ const navigation = [
 
 const db = new PrismaClient();
 
-type AnyObject = { [key: string]: any };
-
-// 데이터 키를 소문자로 변환하는 함수
-const toLowerCaseKeys = (obj: any): any => {
-  if (Array.isArray(obj)) {
-    return obj.map(toLowerCaseKeys);
-  } else if (obj !== null && typeof obj === "object") {
-    return Object.keys(obj).reduce((acc: { [key: string]: any }, key) => {
-      acc[key.toLowerCase()] = toLowerCaseKeys(obj[key]);
-      return acc;
-    }, {});
-  }
-  return obj;
-};
-
 const ResultContent = () => {
+  const searchParams = useSearchParams();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [data, setData] = useState<DiagnosisData | null>(null);
-  const searchParams = useSearchParams();
+  const [result, setResult] = useState<Result | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const resultId = searchParams.get("resultId");
 
   useEffect(() => {
-    const dataParam = searchParams.get("data");
-    if (dataParam) {
-      try {
-        let parsedData = JSON.parse(dataParam);
-        //console.log("Parsed Data (first parse):", parsedData); // 첫 번째 파싱 확인
-
-        if (typeof parsedData === "string") {
-          parsedData = JSON.parse(parsedData);
-          //console.log(typeof parsedData);
-          //console.log("Parsed Data (second parse):", parsedData); // 두 번째 파싱 확인
+    if (resultId) {
+      const fetchResult = async () => {
+        try {
+          const response = await fetch(`/api/getResult?resultId=${resultId}`);
+          if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            setResult(data);
+          } else {
+            console.error("Failed to fetch result");
+          }
+        } catch (error) {
+          console.error("An error occurred while fetching the result:", error);
+        } finally {
+          setLoading(false);
         }
+      };
 
-        setData(parsedData as DiagnosisData);
-      } catch (error) {
-        console.error("Failed to parse data:", error);
-      }
+      fetchResult();
     }
-  }, [searchParams]);
+  }, [resultId]);
 
-  useEffect(() => {
-    if (data) {
-      console.log("Data after setting:", data);
-      console.log(typeof data);
+  if (!result) {
+    return <div>Result not found</div>;
+  }
 
-      console.log(data.predicted_result as string);
-
-      console.log("Predicted Result:", data.predicted_result); // 변환된 데이터 확인
-      console.log("Features:", data.important_proteins); // 변환된 데이터 확인
-    }
-  }, [data]);
-
-  if (!data) {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <p>Loading...</p>
@@ -102,8 +102,8 @@ const ResultContent = () => {
     );
   }
 
-  const predictedResult = data.predicted_result;
-  const features = data.important_proteins || [];
+  const predictedResult = result.predictedResult;
+  const features = result.protein || [];
 
   const chartData = {
     labels: features.map((f) => f.protein),

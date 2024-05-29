@@ -43,6 +43,7 @@ const DiagnosisPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const [fileName, setFileName] = useState<string>("");
 
   const [currentStep, setCurrentStep] = useState(1);
   const [apiResponse, setApiResponse] = useState(null);
@@ -86,7 +87,7 @@ const DiagnosisPage = () => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              userName: "John Doe", // 예시 값, 실제 사용자 이름으로 변경
+              userName: fileName ? fileName : "Anonymous", // 예시 값, 실제 사용자 이름으로 변경
               predictedResult: resultData.predicted_result,
               proteins: resultData.important_proteins,
             }),
@@ -143,14 +144,13 @@ const DiagnosisPage = () => {
     setCurrentPage(newPage);
   };
 
-  const handleRowClick = (id: number) => {
-    router.push(`/diagnosis/result?resultId=${id}`);
-  };
-
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files ? event.target.files[0] : null;
+
     console.log("Upload file");
-    if (event.target.files && event.target.files[0]) {
-      setFile(event.target.files[0]);
+    if (selectedFile) {
+      setFile(selectedFile);
+      setFileName(selectedFile.name);
     }
   };
 

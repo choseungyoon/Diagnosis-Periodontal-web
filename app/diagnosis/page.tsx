@@ -70,7 +70,10 @@ const DiagnosisPage = () => {
     setApiResponse(data);
   };
 
-  const openResultModal = () => {};
+  const closeResultModal = () => {
+    setIsResultModalOpen(false);
+  };
+
   const closeModal = () => {
     setIsModalOpen(false);
     setCurrentStep(1);
@@ -104,9 +107,8 @@ const DiagnosisPage = () => {
           if (response.ok) {
             const result = await response.json();
             setResult(result);
-            setIsModalOpen(false);
             setIsResultModalOpen(true);
-            //router.push(`/diagnosis/result?resultId=${result.id}`);
+            setIsModalOpen(false);
           } else {
             console.error("Failed to save result");
           }
@@ -461,6 +463,7 @@ const DiagnosisPage = () => {
 
       <ResultModal
         isOpen={isResultModalOpen}
+        onClose={closeResultModal}
         resultValue={result?.predictedResult}
         resultId={result?.id}
       ></ResultModal>

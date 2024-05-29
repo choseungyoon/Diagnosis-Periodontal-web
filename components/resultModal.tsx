@@ -11,17 +11,17 @@ import {
 
 interface ResultModalProps {
   isOpen: boolean;
+  onClose: () => void;
   resultValue?: string;
   resultId?: number;
 }
 
 export default function ResultModal({
   isOpen,
+  onClose,
   resultValue,
   resultId,
 }: ResultModalProps) {
-  const [open, setOpen] = useState(isOpen);
-
   const renderContent = () => {
     switch (resultValue) {
       case "periodontitis":
@@ -60,11 +60,8 @@ export default function ResultModal({
     window.open(`/diagnosis/result?resultId=${resultId}`, "_blank");
   };
 
-  const onClose = () => {
-    setOpen(false);
-  };
   return (
-    <Transition show={open} as={Fragment}>
+    <Transition show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onClose}>
         <Transition.Child
           as={Fragment}

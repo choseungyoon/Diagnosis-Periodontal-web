@@ -11,6 +11,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Modal from "@/components/modal";
 import { useRouter } from "next/navigation";
 import { PrismaClient } from "@prisma/client";
+import { format } from "date-fns";
 
 const navigation = [
   { name: "HOME", href: "/" },
@@ -30,6 +31,14 @@ interface DiagnosisData {
   important_proteins: Protein[];
 }
 
+interface Result {
+  id: number;
+  userName: string;
+  predictedResult: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 const DiagnosisPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -37,6 +46,12 @@ const DiagnosisPage = () => {
 
   const [currentStep, setCurrentStep] = useState(1);
   const [apiResponse, setApiResponse] = useState(null);
+
+  const [results, setResults] = useState<Result[] | null>(null);
+  const [totalResults, setTotalResults] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+
   const router = useRouter();
 
   const openModal = async () => {
@@ -53,6 +68,9 @@ const DiagnosisPage = () => {
     setApiResponse(null);
   };
 
+  const handleResultButtonClick = (id: number) => {
+    window.open(`/diagnosis/result?resultId=${id}`, "_blank");
+  };
   useEffect(() => {
     if (!isModalOpen) return;
 
@@ -62,7 +80,7 @@ const DiagnosisPage = () => {
 
       const saveResult = async () => {
         try {
-          const response = await fetch("/api/result", {
+          const response = await fetch("/api/saveResult", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -99,6 +117,35 @@ const DiagnosisPage = () => {
       return () => clearTimeout(timer);
     }
   }, [isModalOpen, currentStep, apiResponse]);
+
+  useEffect(() => {
+    const fetchResults = async () => {
+      try {
+        const response = await fetch(`/api/getAllResult`);
+        if (response.ok) {
+          const data = await response.json();
+          setResults(data.results);
+          setTotalResults(data.totalResults);
+        } else {
+          console.log("Failed to fetch result");
+        }
+      } catch (error) {
+        console.error("An error occurred while fetching the result:", error);
+      } finally {
+      }
+    };
+    fetchResults();
+  }, [currentPage]);
+
+  const totalPages = Math.ceil(totalResults / pageSize);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
+  const handleRowClick = (id: number) => {
+    router.push(`/diagnosis/result?resultId=${id}`);
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log("Upload file");
@@ -313,6 +360,71 @@ const DiagnosisPage = () => {
                   influenced the diagnosis.
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+        <div className="px-28 py-10">
+          <div>
+            <span className="font-semibold text-3xl">HISTORY</span>
+          </div>
+          <div className="py-10">
+            <table className="min-w-full bg-white table-auto border-separate rounded-lg border-2 overflow-hidden border-gray-100">
+              <thead>
+                <tr>
+                  <th className="py-2 px-4 border-b ">ID</th>
+                  <th className="py-2 px-4 border-b">User Name</th>
+                  <th className="py-2 px-4 border-b">Predicted Result</th>
+                  <th className="py-2 px-4 border-b">Created At</th>
+                </tr>
+              </thead>
+              <tbody>
+                {results?.map((result) => (
+                  <tr key={result.id} className=" hover:bg-violet-50">
+                    <td className="py-2 px-4 border-b text-center">
+                      {result.id}
+                    </td>
+                    <td className="py-2 px-4 border-b text-center">
+                      {result.userName}
+                    </td>
+                    <td className="py-2 px-4 border-b text-center">
+                      {result.predictedResult}
+                    </td>
+                    <td className="py-2 px-4 border-b text-center">
+                      {format(
+                        new Date(result.createdAt),
+                        "yyyy-MM-dd HH:mm:ss"
+                      )}
+                    </td>
+                    <td className="py-2 px-4 border-b text-center">
+                      <button
+                        onClick={() => handleResultButtonClick(result.id)}
+                        className="px-4 py-2 rounded bg-violet-50 hover:bg-violet-200"
+                      >
+                        Result
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="flex justify-center items-center mt-4 gap-10">
+              <button
+                className="px-4 py-2 bg-violet-500 hover:bg-violet-600  text-white rounded  disabled:bg-gray-300"
+                disabled={currentPage === 1}
+                onClick={() => handlePageChange(currentPage - 1)}
+              >
+                Previous
+              </button>
+              <span>
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                className="px-4 py-2 bg-violet-500 hover:bg-violet-600  text-white rounded  disabled:bg-gray-300"
+                disabled={currentPage === totalPages}
+                onClick={() => handlePageChange(currentPage + 1)}
+              >
+                Next
+              </button>
             </div>
           </div>
         </div>

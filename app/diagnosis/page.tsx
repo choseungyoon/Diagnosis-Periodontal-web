@@ -461,7 +461,6 @@ const DiagnosisPage = () => {
 
       <ResultModal
         isOpen={isResultModalOpen}
-        onClose={closeModal}
         resultValue={result?.predictedResult}
         resultId={result?.id}
       ></ResultModal>

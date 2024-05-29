@@ -12,6 +12,7 @@ import Modal from "@/components/modal";
 import { useRouter } from "next/navigation";
 import { PrismaClient } from "@prisma/client";
 import { format } from "date-fns";
+import ResultModal from "@/components/resultModal";
 
 const navigation = [
   { name: "HOME", href: "/" },
@@ -41,7 +42,10 @@ interface Result {
 
 const DiagnosisPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isResultModalOpen, setIsResultModalOpen] = useState(false);
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>("");
 
@@ -49,6 +53,9 @@ const DiagnosisPage = () => {
   const [apiResponse, setApiResponse] = useState(null);
 
   const [results, setResults] = useState<Result[] | null>(null);
+
+  const [result, setResult] = useState<Result | null>(null);
+
   const [totalResults, setTotalResults] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
@@ -63,6 +70,7 @@ const DiagnosisPage = () => {
     setApiResponse(data);
   };
 
+  const openResultModal = () => {};
   const closeModal = () => {
     setIsModalOpen(false);
     setCurrentStep(1);
@@ -95,7 +103,10 @@ const DiagnosisPage = () => {
 
           if (response.ok) {
             const result = await response.json();
-            router.push(`/diagnosis/result?resultId=${result.id}`);
+            setResult(result);
+            setIsModalOpen(false);
+            setIsResultModalOpen(true);
+            //router.push(`/diagnosis/result?resultId=${result.id}`);
           } else {
             console.error("Failed to save result");
           }
@@ -447,6 +458,13 @@ const DiagnosisPage = () => {
         onClose={closeModal}
         currentStep={currentStep}
       />
+
+      <ResultModal
+        isOpen={isResultModalOpen}
+        onClose={closeModal}
+        resultValue={result?.predictedResult}
+        resultId={result?.id}
+      ></ResultModal>
     </div>
   );
 };

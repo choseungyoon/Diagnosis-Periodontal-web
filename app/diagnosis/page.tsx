@@ -47,7 +47,6 @@ const DiagnosisPage = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   //const [file, setFile] = useState<File | null>(null);
-  const [fileName, setFileName] = useState<string>("");
   const [files, setFiles] = useState<File[]>([]);
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -60,8 +59,6 @@ const DiagnosisPage = () => {
   const [totalResults, setTotalResults] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
-
-  const router = useRouter();
 
   const openModal = async () => {
     setIsModalOpen(true);
@@ -140,9 +137,10 @@ const DiagnosisPage = () => {
   }, [isModalOpen, currentStep, apiResponse]);
 
   useEffect(() => {
+    console.log(currentPage);
     const fetchResults = async () => {
       try {
-        const response = await fetch(`/api/getAllResult`);
+        const response = await fetch(`/api/getAllResult?page=${currentPage}`);
         if (response.ok) {
           const data = await response.json();
           setResults(data.results);

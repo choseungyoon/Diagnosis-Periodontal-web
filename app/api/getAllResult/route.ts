@@ -15,6 +15,11 @@ export async function GET(request: Request) {
         skip,
         take: pageSize,
         include: { protein: true },
+        orderBy : [
+          {
+            createdAt : "desc"
+          }
+        ]
       });
 
       const totalResults = await db.result.count();

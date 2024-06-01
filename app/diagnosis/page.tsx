@@ -46,11 +46,12 @@ const DiagnosisPage = () => {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const [file, setFile] = useState<File | null>(null);
+  //const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>("");
+  const [files, setFiles] = useState<File[]>([]);
 
   const [currentStep, setCurrentStep] = useState(1);
-  const [apiResponse, setApiResponse] = useState(null);
+  const [apiResponse, setApiResponse] = useState<string[]>([]);
 
   const [results, setResults] = useState<Result[] | null>(null);
 
@@ -65,9 +66,13 @@ const DiagnosisPage = () => {
   const openModal = async () => {
     setIsModalOpen(true);
     setCurrentStep(1);
-    const response = await handleUpload(); // API 호출
-    const data = await response;
-    setApiResponse(data);
+
+    const apiRefs: string[] = [];
+    for (const file of files) {
+      const ref = await handleUpload(file);
+      apiRefs.push(ref);
+    }
+    setApiResponse(apiRefs);
   };
 
   const closeResultModal = () => {
@@ -77,47 +82,49 @@ const DiagnosisPage = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setCurrentStep(1);
-    setApiResponse(null);
+    setApiResponse([]);
   };
 
   const handleResultButtonClick = (id: number) => {
     window.open(`/diagnosis/result?resultId=${id}`, "_blank");
   };
+
   useEffect(() => {
     if (!isModalOpen) return;
 
-    if (apiResponse) {
-      let parsedData = JSON.parse(apiResponse);
-      const resultData = parsedData as DiagnosisData;
+    if (apiResponse.length > 0) {
+      for (const idx in apiResponse) {
+        let parsedData = JSON.parse(apiResponse[idx]);
+        const resultData = parsedData as DiagnosisData;
+        console.log(resultData);
+        const saveResult = async () => {
+          try {
+            const response = await fetch("/api/saveResult", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                userName: files[idx] ? files[idx].name : "Anonymous", // 예시 값, 실제 사용자 이름으로 변경
+                predictedResult: resultData.predicted_result,
+                proteins: resultData.important_proteins,
+              }),
+            });
 
-      const saveResult = async () => {
-        try {
-          const response = await fetch("/api/saveResult", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              userName: fileName ? fileName : "Anonymous", // 예시 값, 실제 사용자 이름으로 변경
-              predictedResult: resultData.predicted_result,
-              proteins: resultData.important_proteins,
-            }),
-          });
-
-          if (response.ok) {
-            const result = await response.json();
-            setResult(result);
-            setIsResultModalOpen(true);
-            setIsModalOpen(false);
-          } else {
-            console.error("Failed to save result");
+            if (response.ok) {
+              const result = await response.json();
+              setResult(result);
+              setIsResultModalOpen(true);
+              setIsModalOpen(false);
+            } else {
+              console.error("Failed to save result");
+            }
+          } catch (error) {
+            console.error("An error occurred while saving the result:", error);
           }
-        } catch (error) {
-          console.error("An error occurred while saving the result:", error);
-        }
-      };
-
-      saveResult();
+        };
+        saveResult();
+      }
     } else {
       const timer = setTimeout(() => {
         setCurrentStep((prev) => (prev < 4 ? prev + 1 : 1));
@@ -157,17 +164,7 @@ const DiagnosisPage = () => {
     setCurrentPage(newPage);
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files ? event.target.files[0] : null;
-
-    console.log("Upload file");
-    if (selectedFile) {
-      setFile(selectedFile);
-      setFileName(selectedFile.name);
-    }
-  };
-
-  const handleUpload = async () => {
+  const handleUpload = async (file: File) => {
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
@@ -196,6 +193,35 @@ const DiagnosisPage = () => {
       </div>
     );
   }
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(event.target.files || []);
+    const excelFiles = selectedFiles.filter(
+      (file) =>
+        file.type ===
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    setFiles((prevFiles) => [...prevFiles, ...excelFiles]);
+  };
+
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    const droppedFiles = Array.from(event.dataTransfer.files);
+    const excelFiles = droppedFiles.filter(
+      (file) =>
+        file.type ===
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    setFiles((prevFiles) => [...prevFiles, ...excelFiles]);
+  };
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
+  const removeFile = (index: number) => {
+    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  };
 
   return (
     <div className="bg-white">
@@ -305,9 +331,9 @@ const DiagnosisPage = () => {
             }}
           />
         </div>
-        <div className="relative isolate px-6 pt-14 lg:px-8">
-          <div className="flex flex-col justify-center items-center">
-            <div className="flex w-full gap-3 justify-center flex-col md:flex-row">
+        <div className="relative isolate px-8 pt-14 lg:px-28">
+          <div className="flex flex-col ">
+            {/* <div className="flex w-full gap-3 justify-center flex-col md:flex-row">
               <input
                 onChange={handleFileChange}
                 type="file"
@@ -325,15 +351,95 @@ const DiagnosisPage = () => {
               >
                 Diagnosis Now
               </button>
+            </div> */}
+            <div className="pb-8">
+              <span className="font-semibold text-3xl">START DIAGNOSIS</span>
             </div>
-            <div>
-              <p className="text-sm mt-2 text-red-500">
-                Only Excel file is Allowed.
-              </p>
+            <div className="flex flex-col items-center w-full">
+              <div
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+              >
+                <label
+                  htmlFor="dropzone-file"
+                  className="flex flex-col items-center justify-center w-full h-full"
+                >
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg
+                      className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 16"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                      />
+                    </svg>
+                    <p className="mb-2 text-base text-gray-500 dark:text-gray-400">
+                      <span className="font-semibold">
+                        Click to upload data
+                      </span>{" "}
+                      or drag and drop
+                    </p>
+                    <p className="text-sm text-red-500 dark:text-gray-400">
+                      Only Excel file is Allowed.
+                    </p>
+                  </div>
+                  <input
+                    id="dropzone-file"
+                    type="file"
+                    accept=".xlsx"
+                    className="hidden"
+                    multiple
+                    onChange={handleFileChange}
+                  />
+                </label>
+              </div>
+              {files.length > 0 && (
+                <div className="mt-4 w-full border-2 border-gray-300 p-10 bg-white rounded-md shadow-md">
+                  <span className="text-xl">Selected Files</span>
+                  <ul className="pt-2">
+                    {files.map((file, index) => (
+                      <li
+                        key={index}
+                        className="flex justify-between items-center bg-gray-100 p-2 rounded-md mb-2 hover:bg-gray-300"
+                      >
+                        {file.name}
+                        <button
+                          onClick={() => removeFile(index)}
+                          className="ml-2 text-red-500 hover:text-red-700"
+                        >
+                          Remove
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="flex justify-end pt-5">
+                    <button
+                      //onClick={handleUpload}
+                      onClick={openModal}
+                      //className="text-base px-2 bg-violet-500 text-white  rounded-xl hover:bg-violet-600  transition-colors"
+                      className={`px-4 py-2 rounded ${
+                        files.length > 0
+                          ? " text-base px-2  text-white bg-violet-500 hover:bg-violet-600  transition-colors"
+                          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      }`}
+                    >
+                      Diagnosis Now
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
-        <div className="py-10">
+        <div className="px-28 py-10">
           <div className="w-full h-px bg-neutral-200"></div>
         </div>
         <div className="px-28 py-10">

@@ -192,6 +192,30 @@ const DiagnosisPage = () => {
     );
   }
 
+  const renderResult = (predictResult: String) => {
+    switch (predictResult) {
+      case "periodontitis":
+        return (
+          <span className="justify-center text-center w-1/2 inline-flex items-center rounded-md bg-red-50 px-2 py-2 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+            PERIODONTITIS
+          </span>
+        );
+      case "gingivitis":
+        return (
+          <span className="justify-center text-center w-1/2 inline-flex items-center rounded-md bg-yellow-50 px-2 py-2 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
+            GINGIVITIS
+          </span>
+        );
+      case "normal":
+        return (
+          <span className="justify-center text-center w-1/2 inline-flex items-center rounded-md bg-green-50 px-2 py-2 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+            NORMAL
+          </span>
+        );
+      default:
+        return null;
+    }
+  };
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(event.target.files || []);
     const excelFiles = selectedFiles.filter(
@@ -331,25 +355,6 @@ const DiagnosisPage = () => {
         </div>
         <div className="relative isolate px-8 pt-14 lg:px-28">
           <div className="flex flex-col ">
-            {/* <div className="flex w-full gap-3 justify-center flex-col md:flex-row">
-              <input
-                onChange={handleFileChange}
-                type="file"
-                className="text-base rounded-xl w-full md:w-3/4 text-gray-400 font-semibold bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500"
-              />
-              <button
-                //onClick={handleUpload}
-                onClick={openModal}
-                //className="text-base px-2 bg-violet-500 text-white  rounded-xl hover:bg-violet-600  transition-colors"
-                className={`px-4 py-2 rounded ${
-                  file
-                    ? " text-base px-2  text-white bg-violet-500 hover:bg-violet-600  transition-colors"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                }`}
-              >
-                Diagnosis Now
-              </button>
-            </div> */}
             <div className="pb-8">
               <span className="font-semibold text-3xl">START DIAGNOSIS</span>
             </div>
@@ -500,6 +505,7 @@ const DiagnosisPage = () => {
                   <th className="py-2 px-4 border-b">User Name</th>
                   <th className="py-2 px-4 border-b">Predicted Result</th>
                   <th className="py-2 px-4 border-b">Created At</th>
+                  <th className="py-2 px-4 border-b">Report</th>
                 </tr>
               </thead>
               <tbody>
@@ -512,7 +518,7 @@ const DiagnosisPage = () => {
                       {result.userName}
                     </td>
                     <td className="py-2 px-4 border-b text-center">
-                      {result.predictedResult}
+                      {renderResult(result.predictedResult)}
                     </td>
                     <td className="py-2 px-4 border-b text-center">
                       {format(
@@ -520,12 +526,12 @@ const DiagnosisPage = () => {
                         "yyyy-MM-dd HH:mm:ss"
                       )}
                     </td>
-                    <td className="py-2 px-4 border-b text-center">
+                    <td className="py-1 px-2 border-b text-center">
                       <button
                         onClick={() => handleResultButtonClick(result.id)}
-                        className="px-4 py-2 rounded bg-violet-50 hover:bg-violet-200"
+                        className="text-sm px-3 py-2 rounded bg-violet-50 hover:bg-violet-200"
                       >
-                        Result
+                        REPORT
                       </button>
                     </td>
                   </tr>

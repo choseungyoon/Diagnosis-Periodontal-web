@@ -11,9 +11,15 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   currentStep: number;
+  currenctFileName?: String;
 }
 
-export default function Modal({ isOpen, onClose, currentStep }: ModalProps) {
+export default function Modal({
+  isOpen,
+  onClose,
+  currentStep,
+  currenctFileName,
+}: ModalProps) {
   if (!isOpen) return null;
 
   const renderContent = () => {
@@ -50,12 +56,15 @@ export default function Modal({ isOpen, onClose, currentStep }: ModalProps) {
         return null;
     }
   };
+
   const progressPercentage = (currentStep / 4) * 100;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 *:font-serif">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full animate-modal-open">
-        <h2 className="text-2xl font-bold mb-4">Processing</h2>
+        <h2 className="text-xl font-bold mb-4">
+          Processing - {currenctFileName}
+        </h2>
         <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
           <div
             className="bg-blue-600 h-2.5 rounded-full"

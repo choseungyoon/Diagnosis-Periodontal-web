@@ -48,6 +48,7 @@ const DiagnosisPage = () => {
 
   //const [file, setFile] = useState<File | null>(null);
   const [files, setFiles] = useState<File[]>([]);
+  const [currentFile, setCurrentFile] = useState<File>();
 
   const [currentStep, setCurrentStep] = useState(1);
   const [apiResponse, setApiResponse] = useState<string[]>([]);
@@ -66,6 +67,7 @@ const DiagnosisPage = () => {
 
     const apiRefs: string[] = [];
     for (const file of files) {
+      setCurrentFile(file);
       const ref = await handleUpload(file);
       apiRefs.push(ref);
     }
@@ -569,6 +571,7 @@ const DiagnosisPage = () => {
         isOpen={isModalOpen}
         onClose={closeModal}
         currentStep={currentStep}
+        currenctFileName={currentFile?.name}
       />
 
       <ResultModal

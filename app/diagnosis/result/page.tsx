@@ -101,6 +101,8 @@ const ResultContent = () => {
   }
 
   const predictedResult = result.predictedResult;
+  const fileName = result.userName;
+
   const features = result.protein || [];
 
   const chartData = {
@@ -250,11 +252,14 @@ const ResultContent = () => {
           />
         </div>
         <div className="flex flex-col rounded-lg mt-10 px-8">
-          <div className="pt-10">
+          <div className="pt-10 flex items-center justify-around">
             <h2 className="text-3xl font-bold mb-4">
               Diagnosis Result :{" "}
               <span className="uppercase">{predictedResult}</span>
             </h2>
+            <h3>
+              File Name :<span className="uppercase">{fileName}</span>
+            </h3>
           </div>
 
           <div className="flex">

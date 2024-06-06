@@ -40,13 +40,18 @@ interface Result {
   updatedAt: string;
 }
 
+interface TempResult {
+  id: number;
+  userName: string;
+  predictedResult: string;
+}
+
 const DiagnosisPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isResultModalOpen, setIsResultModalOpen] = useState(false);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  //const [file, setFile] = useState<File | null>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [currentFile, setCurrentFile] = useState<File>();
 
@@ -56,6 +61,8 @@ const DiagnosisPage = () => {
   const [results, setResults] = useState<Result[] | null>(null);
 
   const [result, setResult] = useState<Result | null>(null);
+
+  const [disanosisResults, setDisanosisResults] = useState<TempResult[]>([]);
 
   const [totalResults, setTotalResults] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -76,12 +83,17 @@ const DiagnosisPage = () => {
 
   const closeResultModal = () => {
     setIsResultModalOpen(false);
+    setFiles([]);
+    setApiResponse([]);
+    setDisanosisResults([]);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setCurrentStep(1);
     setApiResponse([]);
+    setFiles([]);
+    setDisanosisResults([]);
   };
 
   const handleResultButtonClick = (id: number) => {
@@ -111,10 +123,20 @@ const DiagnosisPage = () => {
             });
 
             if (response.ok) {
-              const result = await response.json();
-              setResult(result);
+              const temp = await response.json();
+              setResult(temp);
               setIsResultModalOpen(true);
               setIsModalOpen(false);
+              console.log("temp : ", temp);
+              setDisanosisResults((prevResult) => [
+                ...prevResult,
+                {
+                  id: temp.id,
+                  userName: temp.userName,
+                  predictedResult: temp.predictedResult,
+                },
+              ]);
+              console.log("disanosisResults : ", disanosisResults);
             } else {
               console.error("Failed to save result");
             }
@@ -561,11 +583,6 @@ const DiagnosisPage = () => {
             </div>
           </div>
         </div>
-        {/* <div className="px-28 py-10">
-          <div>
-            <span className="font-semibold text-2xl">KEY FEATURES</span>
-          </div>
-        </div> */}
       </div>
       <Modal
         isOpen={isModalOpen}
@@ -579,6 +596,7 @@ const DiagnosisPage = () => {
         onClose={closeResultModal}
         resultValue={result?.predictedResult}
         resultId={result?.id}
+        disanosisResults={disanosisResults}
       ></ResultModal>
     </div>
   );

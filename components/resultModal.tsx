@@ -9,11 +9,22 @@ import {
   CheckCircleIcon,
 } from "@heroicons/react/24/outline";
 
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+interface Result {
+  id: number;
+  userName: string;
+  predictedResult: string;
+}
+
 interface ResultModalProps {
   isOpen: boolean;
   onClose: () => void;
   resultValue?: string;
   resultId?: number;
+  disanosisResults: Result[];
 }
 
 export default function ResultModal({
@@ -21,9 +32,21 @@ export default function ResultModal({
   onClose,
   resultValue,
   resultId,
+  disanosisResults,
 }: ResultModalProps) {
-  const renderContent = () => {
-    switch (resultValue) {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const sliderSettings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    beforeChange: (current: number, next: number) => setCurrentSlide(next),
+  };
+
+  const renderContent = (value: string) => {
+    switch (value) {
       case "periodontitis":
         return (
           <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
@@ -57,7 +80,8 @@ export default function ResultModal({
   };
 
   const handleResultButtonClick = () => {
-    window.open(`/diagnosis/result?resultId=${resultId}`, "_blank");
+    const selectedResult = disanosisResults[currentSlide];
+    window.open(`/diagnosis/result?resultId=${selectedResult.id}`, "_blank");
   };
 
   return (
@@ -88,29 +112,43 @@ export default function ResultModal({
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                 <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                  <div className="sm:flex sm:items-start">
-                    {renderContent()}
-                    <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                      <DialogTitle
-                        as="h3"
-                        className="text-xl font-semibold leading-6 text-gray-900"
-                      >
-                        {resultValue?.toUpperCase()}
-                      </DialogTitle>
-                      <div className="mt-2">
-                        <p className="text-sm text-gray-500">
-                          Your diagnostic result is{" "}
-                          <span className="font-semibold">{resultValue}</span>.
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          These results were determined by an AI model, and for
-                          a more detailed explanation, please consult with your
-                          physician.
-                        </p>
-                      </div>
-                    </div>
+                  <div className="pb-5">
+                    <Slider {...sliderSettings}>
+                      {disanosisResults.map((result, index) => (
+                        <div key={index}>
+                          <div className="flex items-center pb-3">
+                            {renderContent(result.predictedResult)}
+                            <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                              <DialogTitle
+                                as="h3"
+                                className="text-xl font-semibold leading-6 text-gray-900"
+                              >
+                                {result.predictedResult.toUpperCase()}
+                              </DialogTitle>
+                            </div>
+                          </div>
+
+                          <h3 className="text-base font-semibold">{`File: ${result.userName}`}</h3>
+                          <div className="mt-2">
+                            <p className="text-sm text-gray-500">
+                              Your diagnostic result is{" "}
+                              <span className="font-semibold">
+                                {result.predictedResult}
+                              </span>
+                              .
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              These results were determined by an AI model, and
+                              for a more detailed explanation, please consult
+                              with your physician.
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </Slider>
                   </div>
                 </div>
+
                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                   <button
                     type="button"

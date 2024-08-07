@@ -120,8 +120,8 @@ export default function Example() {
           />
         </div>
         <div className="px-8  py-16 sm:py-48 lg:py-56 flex flex-col md:flex-row justify-between items-start gap-20">
-          <div className=" *:font-serif">
-            <h1 className="pb-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+          <div className="">
+            <h1 className=" pb-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
               Easy PerioDet.
             </h1>
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">

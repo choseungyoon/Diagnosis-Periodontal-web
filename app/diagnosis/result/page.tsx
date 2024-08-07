@@ -238,7 +238,7 @@ const ResultContent = () => {
         </Dialog>
       </header>
 
-      <div className="relative isolate px-6 pt-14 lg:px-8 *:font-serif">
+      <div className="relative isolate px-6 pt-14 lg:px-8">
         <div
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
           aria-hidden="true"
@@ -263,7 +263,7 @@ const ResultContent = () => {
           </div>
 
           <div className="flex">
-            <div className="w-full flex items-center justify-center  p-4 *:font-serif rounded-lg">
+            <div className="w-full flex items-center justify-center  p-4 rounded-lg">
               <div className=" p-6 rounded-lg shadow-2xl w-full h-full">
                 <Bar data={chartData} options={chartOptions} />
               </div>

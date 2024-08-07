@@ -193,8 +193,8 @@ const DiagnosisPage = () => {
 
       try {
         const response = await axios.post(
-          "https://api.diagnosis-api.com/diagnosis",
-          //"http://localhost:8000/diagnosis",
+          //"https://api.diagnosis-api.com/diagnosis",
+          "http://localhost:8000/diagnosis",
           formData
         );
         //alert(response.data["output"]);
@@ -364,7 +364,7 @@ const DiagnosisPage = () => {
         </Dialog>
       </header>
 
-      <div className="relative isolate px-6 pt-14 lg:px-8 *:font-serif">
+      <div className="relative isolate px-6 pt-14 lg:px-8">
         <div
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
           aria-hidden="true"
@@ -380,7 +380,7 @@ const DiagnosisPage = () => {
         <div className="relative isolate px-8 pt-14 lg:px-28">
           <div className="flex flex-col ">
             <div className="pb-8">
-              <span className="font-semibold text-3xl">START DIAGNOSIS</span>
+              <span className="font-semibold text-3xl">Start diagnosis</span>
             </div>
             <div className="flex flex-col items-center w-full">
               <div
@@ -471,11 +471,11 @@ const DiagnosisPage = () => {
         </div>
         <div className="px-28 py-10">
           <div className="pb-8">
-            <span className="font-semibold text-3xl">ANALYSIS STEP</span>
+            <span className="font-semibold text-3xl">Analysis Step</span>
           </div>
-          <div className="flex flex-row items-center justify-center pt-4 gap-5">
-            <div className="flex">
-              <div className=" bg-white rounded-lg p-5 shadow-lg flex-col hover:scale-125 transition-transform hover:bg-purple-50">
+          <div className="flex flex-row items-center justify-center pt-4 gap-5 grid-cols-4">
+            <div className="grid-cols-1 flex">
+              <div className=" bg-white rounded-lg p-4 shadow-lg flex-col hover:scale-125 transition-transform hover:bg-purple-50">
                 <span className="font-semibold text-lg">
                   Upload Protein data
                 </span>
@@ -485,8 +485,8 @@ const DiagnosisPage = () => {
                 </p>
               </div>
             </div>
-            <div className="flex">
-              <div className=" bg-white rounded-lg p-5 shadow-lg flex-col hover:scale-125 transition-transform hover:bg-purple-50">
+            <div className="grid-cols-1 flex">
+              <div className=" bg-white rounded-lg p-4 shadow-lg flex-col hover:scale-125 transition-transform hover:bg-purple-50">
                 <span className="font-semibold text-lg">
                   Data preprocessing
                 </span>
@@ -496,17 +496,17 @@ const DiagnosisPage = () => {
                 </p>
               </div>
             </div>
-            <div className="flex">
-              <div className=" bg-white rounded-lg p-5 shadow-lg flex-col hover:scale-125 transition-transform hover:bg-purple-50">
+            <div className="grid-cols-1 flex">
+              <div className=" bg-white rounded-lg p-4 shadow-lg flex-col hover:scale-125 transition-transform hover:bg-purple-50">
                 <span className="font-semibold text-lg">Predict</span>
                 <p>
                   We diagnose the presence of diseases using an artificial
-                  intelligence algorithm.
+                  intelligence algorithm
                 </p>
               </div>
             </div>
-            <div className="flex">
-              <div className=" bg-white rounded-lg p-5 shadow-lg flex-col hover:scale-125 transition-transform hover:bg-purple-50">
+            <div className="grid-cols-1 flex">
+              <div className=" bg-white rounded-lg p-4 shadow-lg flex-col hover:scale-125 transition-transform hover:bg-purple-50">
                 <span className="font-semibold text-lg">Result</span>
                 <p>
                   We classify the results into periodontitis, gingivitis, and
@@ -519,7 +519,7 @@ const DiagnosisPage = () => {
         </div>
         <div className="px-28 py-10">
           <div>
-            <span className="font-semibold text-3xl">HISTORY</span>
+            <span className="font-semibold text-3xl">History</span>
           </div>
           <div className="py-10">
             <table className="min-w-full bg-white table-auto border-separate rounded-lg border-2 overflow-hidden border-gray-100">

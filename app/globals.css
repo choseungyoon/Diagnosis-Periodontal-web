@@ -23,3 +23,119 @@
       animation: modal-open 0.3s ease-out forwards;
     }
   }
+
+  @layer base {
+    :root {
+      /* ----  Color variables ----*/
+      --amber_700: #fa306;
+      --amber_700_19: #ffa30719;
+      --black_900: #000000;
+      --black_900_7f: #0000007f;
+      --blue_100: #01f3;
+      --blue_50: #e7f3f9;
+      --blue_gray_100: #cfd4dc;
+      --blue_gray_50: #f1f1f1;
+      --blue_gray_50_01: #f1f1f2;
+      --blue_gray_800: #344053;
+      --blue_gray_900: #333333;
+      --gray_200: #77e7;
+      --gray_200_19: #e7e7e719;
+      --gray_50: #f8f8ff;
+      --gray_500: #999999;
+      --gray_50_01: #f7f9fb;
+      --gray_50_02: #f7f8ff;
+      --gray_50_33: #f8f8ff33;
+      --gray_50_7f: #f7f9fb7f;
+      --gray_600: #7f7f7f;
+      --gray_600_01: #777777;
+      --gray_700: #666666;
+      --gray_700_01: #555555;
+      --gray_800: #444444;
+      --gray_900: #222222
+      --gray_900_01: #111111;
+      --gray_900_Oc: #1018280c;
+      --gray_900_14: #0d0a2c14;
+      --green_400: #4db47e;
+      --green_400_01: #62c076;
+      --green_50: #e2ffec;
+      --green_900: #195d38;
+      --indigo_50: #e6e9ed;
+      --indigo_50_01: #e46eb;
+      --indigo_900: #0b3775;
+      --light_blue_800: #0081bf;
+      --light_blue_800_19: #0081bf19;
+      --light_blue_a700: #007afd;
+      --light_blue_a700_01: #007aff;
+      --light_blue_a700_14: #007afd14;
+      --light_blue_a700_19: #007afd19;
+      --red_400: #e3585b;
+      --red_400_01: #e35455;
+      --red_400_19: #e3585b19;
+      --teal_50: #deeaf6
+      --teal_600: #1da366;
+      --teal_800: #0a7d41;
+      --white_a700: #ffffff;
+      --white_a700_19: #ffffff19;
+      --white_a700_1e: #ffffff1e;
+      --white_a700_26: #ffffff26;
+      --white_a700_33: #ffffff33;
+      --white_a700_cc: #ffffffcc;
+
+
+      /* -----Shadow variables------ */
+      --shadow-xs: 0 1px 2px 0 #1018280c
+      --shadow-sm: 0 2px 6px 0 #0d0a2c14
+
+      /* -----Border radious variables------ */
+      --radius-xs: 3px;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 10px;
+      --radius-2xl: 12px;
+      --radius-3xl: 14px;
+      --radius-4xl: 16px;
+      --radius-5xl: 18px;
+      --radius-6xl: 20px;
+      --radius-7xl: 30px;
+      --radius-8xl: 304px;
+      --radius-9xl: 446px;
+      --radius-10xl: 540px;
+
+      /* -----Spacing variables------ */
+      --space-xs: 4px;
+      --space-sm: 6px;
+      --space-md: 8px;
+      --space-lg: 12px;
+      --space-xl: 14px;
+      --space-2xl: 16px;
+      --space-3xl: 20px;
+      --space-4xl: 22px;
+      --space-5xl: 24px;
+      --space-6xl: 30px;
+      --space-7xl: 32px;
+      --space-8xl: 34px;
+      --space-9xl: 40px;
+      --space-10xl: 54px;
+      --space-11xl: 80px;
+
+    }
+}
+
+@layer components {
+  .container-xs {
+    @apply w-full mx-auto max-w-[866px];
+  }
+
+  .container-sm {
+    @apply w-full mx-auto max-w-[1320px];
+  }
+
+  .container-md {
+    @apply w-full mx-auto max-w-[1440px];
+  }
+
+  .container-lg {
+    @apply w-full mx-auto max-w-[1490px];
+  }
+}

@@ -1,169 +1,135 @@
-"use client";
-import { useState } from "react";
-import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import React from "react";
+import { Metadata } from "next";
+import Header from "@/components/Header";
+import { Text } from "@/components/Text";
+import { Heading } from "@/components/Heading";
+import { Button } from "@/components/Button";
+import { Img } from "@/components/Img";
 
-const navigation = [
-  { name: "HOME", href: "/" },
-  { name: "DIAGNOSIS", href: "/diagnosis" },
-];
-
-export default function Example() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+export default function MainPage() {
   return (
-    <div className="bg-white">
-      <header className="absolute inset-x-0 top-0 z-50">
-        <nav
-          className="flex items-center justify-between p-6 lg:px-8"
-          aria-label="Global"
-        >
-          <div className="flex lg:flex-1">
-            <a href="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">BASIL BIOTECH</span>
-              <img className="h-8 w-auto" src="./logo.png" alt="" />
-            </a>
-          </div>
-          <div className="flex lg:hidden">
-            <button
-              type="button"
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-              onClick={() => setMobileMenuOpen(true)}
-            >
-              <span className="sr-only">Open main menu</span>
-              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-            </button>
-          </div>
-          <div className="hidden lg:flex lg:gap-x-12">
-            {navigation.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-sm font-semibold leading-6 text-gray-900"
+    <div className="w-full bg-indigo-900">
+      <Header className="border-white-a700_33"></Header>
+      <div className="flex items-start justify-end px-32">
+        <div className="relative z-[6] mt-[290px] flex w-[38%] flex-col items-start gap-20 lg:gap-20 md:w-full md:gap-[60px] md:px-5 sm:gap-10">
+          <div className="flex flex-col items-start justify-center self-stretch">
+            <div className="flex flex-col items-start justify-center self-stretch">
+              <Text
+                size="text2xl"
+                as="p"
+                className="font-patuanoe text-[56px] font-normal text-white-a700 lg:text-[47px] md:text-[36px] sm:text-[30px]"
               >
-                {item.name}
-              </a>
-            ))}
-          </div>
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a
-              href="#"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Log in <span aria-hidden="true">&rarr;</span>
-            </a>
-          </div>
-        </nav>
-        <Dialog
-          className="lg:hidden"
-          open={mobileMenuOpen}
-          onClose={setMobileMenuOpen}
-        >
-          <div className="fixed inset-0 z-50" />
-          <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div className="flex items-center justify-between">
-              <a href="#" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                  alt=""
-                />
-              </a>
-              <button
-                type="button"
-                className="-m-2.5 rounded-md p-2.5 text-gray-700"
-                onClick={() => setMobileMenuOpen(false)}
+                Easy PerioDet.
+              </Text>
+              <Text
+                size="text2xl"
+                as="p"
+                className="font-patuanoe text-[56px] font-normal text-white-a700 lg:text-[47px] md:text-[36px] sm:text-[30px]"
               >
-                <span className="sr-only">Close menu</span>
-                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-              </button>
+                Diagnosis Periodontitis.
+              </Text>
             </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-gray-500/10">
-                <div className="space-y-2 py-6">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+            <Heading
+              size="textxl"
+              as="h1"
+              className="text-[24px] font-medium text-white-a700 lg lg:text-[20px]"
+            >
+              Supporting better health outcomes and clinical excellence with
+              intelligent technology.
+            </Heading>
+          </div>
+          <Button
+            color="light_blue_800"
+            size="5xl"
+            rightIcon={
+              <Img
+                src="img_arrowright_white_a700.svg"
+                width={24}
+                height={24}
+                alt="Arrot Right"
+                className="h-[24px] w-[24px]"
+              ></Img>
+            }
+            className="min-w-[208px] gap-1 rounded-[30px] px-[22px] font-bold sm:px-4"
+          >
+            <a href="/diagnosis"> Diagnosis Now</a>
+          </Button>
+        </div>
+        <div className="relative ml-[-340px] flex h-[1080px] w-[50%] items-start justify-center self-center rounded-[540px] bg-[url(/images/img_group_3.png)] bg-cover bg-no-repeat p-3 lg:h-auto md:ml-0 md:h-auto md:w-full md:px-5">
+          <div className="mb-40 flex w-[86%] flex-col items-end lg:w-full md:w-full">
+            <div className="relative h-[894px] w-[92%] ">
+              <div className="absolute bottom-0 left-0 right-0 top-0 m-auto flex h-max flex-1 flex-col items-center rounded-full border border-solid border-gray-200_19 p-[22px] sm:p-4">
+                <div className="mb-[82px] w-[84%] lg:w-full md:w-full">
+                  <div className="flex items-start justify-between gap-5">
+                    <Button
+                      color="white_a700_1e"
+                      size="6xl"
+                      className="mb-3.5 ml-7 w-[66px] rounded-[18px] px-3"
                     >
-                      {item.name}
-                    </a>
-                  ))}
+                      <Img src="img_80_tooth.png" width={42} height={42}></Img>
+                    </Button>
+                    <Img
+                      src="img_mage_hospital_plus_fill.svg"
+                      width={42}
+                      height={42}
+                      alt="Magehospital"
+                      className="h-[42px] w-[42px] self-end"
+                    ></Img>
+                  </div>
+                  <div className="relative ml-[86px] mr-[202px] h-[400px] md:mx-0">
+                    <Img
+                      src="img_tooth.png"
+                      width={388}
+                      height={388}
+                      alt="image"
+                      className="absolute right-[20px] top-0 m-auto h-[100%] w-[100%] object-contain"
+                    ></Img>
+                  </div>
                 </div>
-                <div className="py-6">
-                  <a
-                    href="#"
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              </div>
+              <div className="absolute bottom-[28%] right-[2%] z-[5] m-auto flex w-[40%] justify-center rounded-[20px] bg-white-a700_1e p-3">
+                <div className="flex w-full flex-col items-start">
+                  <Heading
+                    size="headings"
+                    as="h2"
+                    className="text-[16px] font-extrabold lg:text-[13px] text-white-a700"
                   >
-                    Log in
-                  </a>
+                    Important proteins
+                  </Heading>
+                  <div className="mr-2 mt-2.5 flex flex-col items-start self-stretch md:mr-0">
+                    <Text
+                      as="p"
+                      className="text-[10px] font-normal capitalize text-white-a700"
+                    >
+                      P61626
+                    </Text>
+                    <div className="h-[14px] w-[62%] rounded-bl-sm rounded-br-md rounded-tl-sm rounded-tr-md bg-gradient-to-l from-indigo-300"></div>
+                    <Text
+                      as="p"
+                      className="mt-1.5 text-[10px] font-normal capitalize text-white-a700"
+                    >
+                      P05164
+                    </Text>
+                    <div className="h-[14px] w-[99%] rounded-bl-sm rounded-br-md rounded-tl-sm rounded-tr-md bg-gradient-to-l from-indigo-300"></div>
+                    <Text
+                      as="p"
+                      className="mt-1.5 text-[10px] font-normal capitalize text-white-a700"
+                    >
+                      P05164
+                    </Text>
+                    <div className="h-[14px] w-[86%] rounded-bl-sm rounded-br-md rounded-tl-sm rounded-tr-md bg-gradient-to-l from-indigo-300"></div>
+                    <Text
+                      as="p"
+                      className="mt-1.5 text-[10px] font-normal capitalize text-white-a700"
+                    >
+                      P05164
+                    </Text>
+                    <div className="h-[14px] w-[72%] rounded-bl-sm rounded-br-md rounded-tl-sm rounded-tr-md bg-gradient-to-l from-indigo-300"></div>
+                  </div>
                 </div>
               </div>
             </div>
-          </Dialog.Panel>
-        </Dialog>
-      </header>
-
-      <div className="relative isolate px-6 pt-14 lg:px-8">
-        <div
-          className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-          aria-hidden="true"
-        >
-          <div
-            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-            style={{
-              clipPath:
-                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-            }}
-          />
-        </div>
-        <div className="px-8  py-16 sm:py-48 lg:py-56 flex flex-col md:flex-row justify-between items-start gap-20">
-          <div className="">
-            <h1 className=" pb-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Easy PerioDet.
-            </h1>
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-              Diagnosis Periodontitis.
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Supporting better health outcomes and clinical excellence with
-              intelligent technology.
-            </p>
-            <div className="mt-10 flex items-center gap-x-6">
-              <a
-                href="/diagnosis"
-                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Diagnosis Now
-              </a>
-            </div>
           </div>
-          <div>
-            <div className="p-10 bg-white shadow-lg rounded-lg">
-              <p className="text-xl text-gray-900">
-                Check for the disease early {"\n"}
-                {"\n"}
-                {"\n"}
-                <span className="font-bold">in advance</span>
-                {"\n"}
-                through Artificial intelligence
-              </p>
-            </div>
-          </div>
-        </div>
-        <div
-          className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-          aria-hidden="true"
-        >
-          <div
-            className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-            style={{
-              clipPath:
-                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-            }}
-          />
         </div>
       </div>
     </div>

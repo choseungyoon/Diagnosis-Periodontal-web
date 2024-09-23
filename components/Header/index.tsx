@@ -11,40 +11,64 @@ export default function Header({ ...props }: Props) {
   return (
     <header
       {...props}
-      className={`${props.className} flex  justify-between items-center gap-5 px-20 py-6 lg:px-8 md:px-5 sm:p-4 border-b border-solid`}
+      className={`${props.className} sm:p-4 border-b border-solid *:text-sm`}
     >
-      <Img
-        src="img_header_logo.png"
-        width={200}
-        height={30}
-        alt="Headerlogo"
-        className="h-[30px] w-[200px] object-contain"
-      ></Img>
-
-      <ul className="flex flex-wrap gap-[60px] lg:gap-5 md:gap-5">
-        <li>
-          <Link href="#" className="lg:text-[13px]">
-            <Heading
-              size="headings"
-              as="h6"
-              className="text-[16px] font-extrabold capitalize text-white-a700"
-            >
-              Home
-            </Heading>
-          </Link>
-        </li>
-        <li>
-          <Link href="/diagnosis" className="lg:text-[13px]">
-            <Heading
-              size="headings"
-              as="h6"
-              className="text-[16px] font-extrabold capitalize text-white-a700"
-            >
-              Diagnosis
-            </Heading>
-          </Link>
-        </li>
-      </ul>
+      <div className="flex justify-between items-center w-full gap-10 px-5">
+        <div className="flex items-center">
+          <Img
+            src="img_header_logo.png"
+            width={200}
+            height={30}
+            alt="Headerlogo"
+            className="h-[30px] w-[200px] object-contain"
+          ></Img>
+        </div>
+        <div className="flex gap-10">
+          {" "}
+          <div>
+            <Link href="#" className="lg:text-[13px]">
+              <Heading
+                size="headings"
+                as="h6"
+                className="text-[16px] font-extrabold capitalize text-white-a700"
+              >
+                Home
+              </Heading>
+            </Link>
+          </div>
+          <div>
+            <Link href="/diagnosis" className="lg:text-[13px]">
+              <Heading
+                size="headings"
+                as="h6"
+                className="text-[16px] font-extrabold capitalize text-white-a700"
+              >
+                Diagnosis
+              </Heading>
+            </Link>
+          </div>
+        </div>
+        <div className="flex items-center justify-between gap-5">
+          <div className="flex gap-2">
+            <div>
+              <span className="text-white-a700 font-bold underline underline-offset-4">
+                KR
+              </span>
+            </div>
+            <div>
+              <span className="text-white-a700_33">|</span>
+            </div>
+            <div>
+              <span className="text-white-a700 ">EN</span>
+            </div>
+          </div>
+          <div>
+            <div className="px-3 py-1 border border-none bg-blue-400 text-center rounded-md bg-opacity-25">
+              <button className="text-white-a700 font-extrabold">Login</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </header>
   );
 }

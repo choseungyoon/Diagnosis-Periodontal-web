@@ -17,7 +17,7 @@ export default function Header({ ...props }: Props) {
       <div className="flex justify-between items-center w-full gap-10 px-5">
         <div className="flex items-center">
           <Img
-            src="img_header_logo.png"
+            src="img_header_logo2.png"
             width={200}
             height={30}
             alt="Headerlogo"
@@ -31,7 +31,7 @@ export default function Header({ ...props }: Props) {
               <Heading
                 size="headings"
                 as="h3"
-                className={`text-[16px] capitalize text-white-a700 font-sans font-normal ${props.textColor}`}
+                className={`text-[16px] capitalize font-sans ${props.textColor}`}
               >
                 Home
               </Heading>
@@ -42,7 +42,7 @@ export default function Header({ ...props }: Props) {
               <Heading
                 size="headings"
                 as="h3"
-                className="text-[16px] capitalize text-white-a700 font-sans font-normal"
+                className={`text-[16px] capitalize font-sans ${props.textColor}`}
               >
                 Diagnosis
               </Heading>
@@ -52,19 +52,25 @@ export default function Header({ ...props }: Props) {
         <div className="flex items-center justify-between gap-5">
           <div className="flex gap-2">
             <div>
-              <span className="text-white-a700 font-bold underline underline-offset-4 font-sans">
+              <span
+                className={` ${props.textColor} text-[14px] font-bold underline underline-offset-4 font-sans`}
+              >
                 KR
               </span>
             </div>
             <div>
-              <span className="text-white-a700_33">|</span>
+              <span className="">|</span>
             </div>
             <div>
-              <span className="text-white-a700 font-sans font-normal">EN</span>
+              <span
+                className={`text-[14px] capitalize font-sans ${props.textColor}`}
+              >
+                EN
+              </span>
             </div>
           </div>
           <div>
-            <div className="px-3 py-1 border border-none bg-blue-400 text-center rounded-md bg-opacity-25">
+            <div className="px-3 py-1 border border-none bg-light_blue-800 text-center rounded-md bg-opacity-50">
               <button className="text-white-a700 font-extrabold font-sans">
                 Login
               </button>

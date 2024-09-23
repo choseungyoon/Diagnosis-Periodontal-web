@@ -1,18 +1,17 @@
 "use client";
 
 import axios from "axios";
-import Head from "next/head";
 import { SetStateAction, useActionState, useEffect, useState } from "react";
 import Link from "next/link";
 
 import React from "react";
-import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Modal from "@/components/modal";
-import { useRouter } from "next/navigation";
 import { PrismaClient } from "@prisma/client";
 import { format } from "date-fns";
 import ResultModal from "@/components/resultModal";
+import Header from "@/components/Header2";
+import { Img } from "@/components/Img";
+import Image from "next/image";
 
 const navigation = [
   { name: "HOME", href: "/" },
@@ -220,20 +219,20 @@ const DiagnosisPage = () => {
     switch (predictResult) {
       case "periodontitis":
         return (
-          <span className="justify-center text-center w-1/2 inline-flex items-center rounded-md bg-red-50 px-2 py-2 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-            PERIODONTITIS
+          <span className="justify-center text-center w-1/2 inline-flex items-center rounded-md bg-red-50 px-2 py-2 text-xs font-medium font-sans text-red-700 ">
+            Periodontitis
           </span>
         );
       case "gingivitis":
         return (
-          <span className="justify-center text-center w-1/2 inline-flex items-center rounded-md bg-yellow-50 px-2 py-2 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
-            GINGIVITIS
+          <span className="justify-center text-center w-1/2 inline-flex items-center rounded-md bg-yellow-50 px-2 py-2 text-xs font-medium font-sans text-yellow-500">
+            Gingivitis
           </span>
         );
       case "normal":
         return (
-          <span className="justify-center text-center w-1/2 inline-flex items-center rounded-md bg-green-50 px-2 py-2 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-            NORMAL
+          <span className="justify-center text-center w-1/2 inline-flex items-center rounded-md bg-blue-50 px-2 py-2 text-xs font-medium font-sans text-blue-700 ">
+            Normal
           </span>
         );
       default:
@@ -270,123 +269,27 @@ const DiagnosisPage = () => {
   };
 
   return (
-    <div className="bg-white">
-      <header className="absolute inset-x-0 top-0 z-50">
-        <nav
-          className="flex items-center justify-between p-6 lg:px-8"
-          aria-label="Global"
-        >
-          <div className="flex lg:flex-1">
-            <a href="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">BASIL BIOTECH</span>
-              <img className="h-8 w-auto" src="./logo.png" alt="" />
-            </a>
-          </div>
-          <div className="flex lg:hidden">
-            <button
-              type="button"
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-              onClick={() => setMobileMenuOpen(true)}
-            >
-              <span className="sr-only">Open main menu</span>
-              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-            </button>
-          </div>
-          <div className="hidden lg:flex lg:gap-x-12">
-            {navigation.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-sm font-semibold leading-6 text-gray-900"
-              >
-                {item.name}
-              </a>
-            ))}
-          </div>
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a
-              href="#"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Log in <span aria-hidden="true">&rarr;</span>
-            </a>
-          </div>
-        </nav>
-        <Dialog
-          className="lg:hidden"
-          open={mobileMenuOpen}
-          onClose={setMobileMenuOpen}
-        >
-          <div className="fixed inset-0 z-50" />
-          <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div className="flex items-center justify-between">
-              <a href="#" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                  alt=""
-                />
-              </a>
-              <button
-                type="button"
-                className="-m-2.5 rounded-md p-2.5 text-gray-700"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span className="sr-only">Close menu</span>
-                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-              </button>
-            </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-gray-500/10">
-                <div className="space-y-2 py-6">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    >
-                      {item.name}
-                    </a>
-                  ))}
-                </div>
-                <div className="py-6">
-                  <a
-                    href="#"
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    Log in
-                  </a>
-                </div>
-              </div>
-            </div>
-          </Dialog.Panel>
-        </Dialog>
-      </header>
+    <div className="flex w-full flex-col bg-white-a700">
+      <Header
+        className="border-gray-200"
+        textColor="text-gray-900 font-bold"
+      ></Header>
 
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
           aria-hidden="true"
-        >
-          <div
-            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-            style={{
-              clipPath:
-                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-            }}
-          />
-        </div>
+        ></div>
         <div className="relative isolate px-8 pt-14 lg:px-28">
           <div className="flex flex-col ">
             <div className="pb-8">
-              <span className="font-semibold text-3xl">Start diagnosis</span>
+              <span className="font-extralight text-3xl">Start diagnosis</span>
             </div>
             <div className="flex flex-col items-center w-full">
               <div
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
-                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-100 dark:hover:bg-blue-gray-800 dark:bg-gray-700 hover:bg-gray-400 hover:bg-opacity-25 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
               >
                 <label
                   htmlFor="dropzone-file"
@@ -429,33 +332,41 @@ const DiagnosisPage = () => {
                 </label>
               </div>
               {files.length > 0 && (
-                <div className="mt-4 w-full border-2 border-gray-300 p-10 bg-white rounded-md shadow-md">
+                <div className="mt-4 w-full bg-white pt-5">
                   <span className="text-xl">Selected Files</span>
-                  <ul className="pt-2">
+                  <ul className="pt-5">
                     {files.map((file, index) => (
                       <li
                         key={index}
-                        className="flex justify-between items-center bg-gray-100 p-2 rounded-md mb-2 hover:bg-gray-300"
+                        className="px-5 flex justify-between items-center bg-gray-100 py-2 rounded-md mb-2 hover:bg-gray-300"
                       >
-                        {file.name}
-                        <button
-                          onClick={() => removeFile(index)}
-                          className="ml-2 text-red-500 hover:text-red-700"
-                        >
-                          Remove
+                        <div className="flex gap-5 items-center">
+                          <div>
+                            <Img
+                              src="img_excel_icon.png"
+                              width={36}
+                              height={36}
+                            ></Img>
+                          </div>
+                          <div>
+                            <span>{file.name}</span>
+                          </div>
+                        </div>
+
+                        <button onClick={() => removeFile(index)}>
+                          <Img src="img_close.png" width={24} height={24}></Img>
                         </button>
                       </li>
                     ))}
                   </ul>
-                  <div className="flex justify-end pt-5">
+                  <div className="flex justify-center pt-5">
                     <button
                       //onClick={handleUpload}
                       onClick={openModal}
-                      //className="text-base px-2 bg-violet-500 text-white  rounded-xl hover:bg-violet-600  transition-colors"
                       className={`px-4 py-2 rounded ${
                         files.length > 0
-                          ? " text-base px-2  text-white bg-violet-500 hover:bg-violet-600  transition-colors"
-                          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                          ? " text-white-a700 px-2 bg-light_blue-800 hover:bg-gray-600  transition-colors hover:bg-sky-800"
+                          : "bg-light_blue-800  text-white-a700 cursor-not-allowed"
                       }`}
                     >
                       Diagnosis Now
@@ -466,53 +377,125 @@ const DiagnosisPage = () => {
             </div>
           </div>
         </div>
-        <div className="px-28 py-10">
-          <div className="w-full h-px bg-neutral-200"></div>
-        </div>
-        <div className="px-28 py-10">
+
+        <div className="px-28 py-20">
           <div className="pb-8">
             <span className="font-semibold text-3xl">Analysis Step</span>
           </div>
-          <div className="flex flex-row items-center justify-center pt-4 gap-5 grid-cols-4">
-            <div className="grid-cols-1 flex">
-              <div className=" bg-white rounded-lg p-4 shadow-lg flex-col hover:scale-125 transition-transform hover:bg-purple-50">
-                <span className="font-semibold text-lg">
-                  Upload Protein data
-                </span>
-                <p>
-                  Upload protein data extracted from the patient's oral cavity.
-                  The data must include both Accession and Abundance values.
-                </p>
+          <div className="grid items-start justify-center grid-cols-4 ">
+            <div className="flex">
+              <div className="bg-white p-4 flex-col ">
+                <div className="flex justify-center">
+                  <Img
+                    src="diagnosis/img_step_1.png"
+                    width={300}
+                    height={100}
+                    alt="step1"
+                  ></Img>
+                </div>
+                <div className="pt-2">
+                  <span className="text-light_blue-800 text-lg font-sans">
+                    01
+                  </span>
+                </div>
+                <div className="py-2">
+                  <span className="text-2xl font-sans font-semibold">
+                    Upload Protein data
+                  </span>
+                </div>
+                <div>
+                  <p className="font-light font-sans">
+                    Upload protein data extracted from the patient's oral
+                    cavity. The data must include both Accession and Abundance
+                    values.
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="grid-cols-1 flex">
-              <div className=" bg-white rounded-lg p-4 shadow-lg flex-col hover:scale-125 transition-transform hover:bg-purple-50">
-                <span className="font-semibold text-lg">
-                  Data preprocessing
-                </span>
-                <p>
-                  We preprocess the data to fit the AI model. We select the top
-                  100 most important features from the patient's protein data.
-                </p>
+            <div className="flex">
+              <div className="bg-white p-4 flex-col ">
+                <div className="flex justify-center">
+                  <Img
+                    src="diagnosis/img_step_2.png"
+                    width={300}
+                    height={100}
+                    alt="step1"
+                  ></Img>
+                </div>
+                <div className="pt-2">
+                  <span className="text-light_blue-800 text-lg font-sans">
+                    02
+                  </span>
+                </div>
+                <div className="py-2">
+                  <span className="text-2xl font-sans font-semibold">
+                    Data preprocessing
+                  </span>
+                </div>
+                <div>
+                  <p className="font-light font-sans">
+                    We preprocess the data to fit the AI model. We select the
+                    top 100 most important features from the patient's protein
+                    data.
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="grid-cols-1 flex">
-              <div className=" bg-white rounded-lg p-4 shadow-lg flex-col hover:scale-125 transition-transform hover:bg-purple-50">
-                <span className="font-semibold text-lg">Predict</span>
-                <p>
-                  We diagnose the presence of diseases using an artificial
-                  intelligence algorithm
-                </p>
+            <div className="flex">
+              <div className="bg-white p-4 flex-col ">
+                <div className="flex justify-center">
+                  <Img
+                    src="diagnosis/img_step_3.png"
+                    width={300}
+                    height={100}
+                    alt="step1"
+                  ></Img>
+                </div>
+                <div className="pt-2">
+                  <span className="text-light_blue-800 text-lg font-sans">
+                    03
+                  </span>
+                </div>
+                <div className="py-2">
+                  <span className="text-2xl font-sans font-semibold">
+                    Predict
+                  </span>
+                </div>
+                <div>
+                  <p className="font-light font-sans">
+                    We diagnose the presence of diseases using an artificial
+                    intelligence algorithm
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="grid-cols-1 flex">
-              <div className=" bg-white rounded-lg p-4 shadow-lg flex-col hover:scale-125 transition-transform hover:bg-purple-50">
-                <span className="font-semibold text-lg">Result</span>
-                <p>
-                  We classify the results into periodontitis, gingivitis, and
-                  normal. We also provide the top 5 protein data that most
-                  influenced the diagnosis.
-                </p>
+            <div className="flex">
+              <div className="bg-white p-4 flex-col ">
+                <div className="flex justify-center">
+                  <Img
+                    src="diagnosis/img_step_4.png"
+                    width={300}
+                    height={100}
+                    alt="step1"
+                  ></Img>
+                </div>
+                <div className="pt-2">
+                  <span className="text-light_blue-800 text-lg font-sans">
+                    04
+                  </span>
+                </div>
+                <div className="py-2">
+                  <span className="text-2xl font-sans font-semibold">
+                    Result
+                  </span>
+                </div>
+                <div>
+                  <p className="font-light font-sans">
+                    We classify the results into periodontitis, gingivitis, and
+                    normal. We also provide the top 5 protein data that most
+                    influenced the diagnosis.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -534,7 +517,7 @@ const DiagnosisPage = () => {
               </thead>
               <tbody>
                 {results?.map((result) => (
-                  <tr key={result.id} className=" hover:bg-violet-50">
+                  <tr key={result.id} className=" hover:bg-gray-50">
                     <td className="py-2 px-4 border-b text-center">
                       {result.id}
                     </td>
@@ -553,9 +536,13 @@ const DiagnosisPage = () => {
                     <td className="py-1 px-2 border-b text-center">
                       <button
                         onClick={() => handleResultButtonClick(result.id)}
-                        className="text-sm px-3 py-2 rounded bg-violet-50 hover:bg-violet-200"
+                        className="text-sm px-3 py-2 rounded hover:bg-sky-100"
                       >
-                        REPORT
+                        <Img
+                          src="diagnosis/img_report.png"
+                          width={24}
+                          height={24}
+                        ></Img>
                       </button>
                     </td>
                   </tr>
@@ -564,7 +551,7 @@ const DiagnosisPage = () => {
             </table>
             <div className="flex justify-center items-center mt-4 gap-10">
               <button
-                className="px-4 py-2 bg-violet-500 hover:bg-violet-600  text-white rounded  disabled:bg-gray-300"
+                className="px-4 py-2 bg-gray-500 hover:bg-gray-600  text-white rounded  disabled:bg-gray-300"
                 disabled={currentPage === 1}
                 onClick={() => handlePageChange(currentPage - 1)}
               >
@@ -574,7 +561,7 @@ const DiagnosisPage = () => {
                 Page {currentPage} of {totalPages}
               </span>
               <button
-                className="px-4 py-2 bg-violet-500 hover:bg-violet-600  text-white rounded  disabled:bg-gray-300"
+                className="px-4 py-2 bg-gray-500 hover:bg-gray-600  text-white rounded  disabled:bg-gray-300"
                 disabled={currentPage === totalPages}
                 onClick={() => handlePageChange(currentPage + 1)}
               >

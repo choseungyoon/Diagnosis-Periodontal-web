@@ -27,7 +27,7 @@ export default function Header({ ...props }: Props) {
         <div className="flex gap-10">
           {" "}
           <div>
-            <Link href="#" className="lg:text-[13px]">
+            <Link href="/" className="lg:text-[13px]">
               <Heading
                 size="headings"
                 as="h3"

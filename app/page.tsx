@@ -13,24 +13,15 @@ export default function MainPage() {
         className="border-white-a700_33"
         textColor="text-white-a700"
       ></Header>
-      <div className="flex items-start justify-end px-32">
+      <div className="flex items-start justify-end px-16">
         <div className="relative z-[6] mt-[290px] flex w-[38%] flex-col items-start gap-20 lg:gap-20 md:w-full md:gap-[60px] md:px-5 sm:gap-10">
           <div className="flex flex-col items-start justify-center self-stretch">
             <div className="flex flex-col items-start justify-center self-stretch">
-              <Text
-                size="text2xl"
-                as="p"
-                className="text-[56px] text-white-a700 lg:text-[47px] md:text-[36px] sm:text-[30px]"
-              >
-                Easy PerioDet.
-              </Text>
-              <Text
-                size="text2xl"
-                as="p"
-                className="text-[56px] text-white-a700 lg:text-[45px] md:text-[36px] sm:text-[30px]"
-              >
+              <span className="text-white-a700 text-6xl"> Easy PerioDet.</span>
+              <span className="text-white-a700 text-6xl py-3">
+                {" "}
                 Diagnosis Periodontitis.
-              </Text>
+              </span>
             </div>
             <div className="pt-5">
               <span className="text-white-a700 font-mono">

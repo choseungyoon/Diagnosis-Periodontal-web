@@ -17,26 +17,24 @@ export default function MainPage() {
               <Text
                 size="text2xl"
                 as="p"
-                className="font-patuanoe text-[56px] font-normal text-white-a700 lg:text-[47px] md:text-[36px] sm:text-[30px]"
+                className="text-[56px] text-white-a700 lg:text-[47px] md:text-[36px] sm:text-[30px]"
               >
                 Easy PerioDet.
               </Text>
               <Text
                 size="text2xl"
                 as="p"
-                className="font-patuanoe text-[56px] font-normal text-white-a700 lg:text-[47px] md:text-[36px] sm:text-[30px]"
+                className="text-[56px] text-white-a700 lg:text-[45px] md:text-[36px] sm:text-[30px]"
               >
                 Diagnosis Periodontitis.
               </Text>
             </div>
-            <Heading
-              size="textxl"
-              as="h1"
-              className="text-[24px] font-medium text-white-a700 lg lg:text-[20px]"
-            >
-              Supporting better health outcomes and clinical excellence with
-              intelligent technology.
-            </Heading>
+            <div className="pt-5">
+              <span className="text-white-a700 font-mono">
+                Supporting better health outcomes and clinical excellence with
+                intelligent technology.
+              </span>
+            </div>
           </div>
           <Button
             color="light_blue_800"

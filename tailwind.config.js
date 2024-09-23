@@ -63,7 +63,6 @@ module.exports = {
         },
       },
       boxShadow: { xs: "O 1px 2px 0 #1018280c", sm: "0 2px 6px #0d0a2c14" },
-      fontFamily : {suit: "SUIT" , patuaone: "Patua One"},
       backgroundImage : {gradient: "linear-gradient(90deg,#f8f8ff33,#f8f8ff)"},
       backgroundImage: {
         'custom-gradient': 'linear-gradient(90deg, #ebf8ff 0%, #bee3f8 100%)',

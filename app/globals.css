@@ -4,7 +4,14 @@
 
 @import '~slick-carousel/slick/slick.css';
 @import '~slick-carousel/slick/slick-theme.css';
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+@font-face {
+  font-display: swap;
+  font-style: normal;
+  font-family: "Patua One";
+  font-weight: 400;
+  src: url("/fonts/PatuaOne-Regular.ttf")
+}
 
 /* 모달 오픈 애니메이션 */
 @keyframes modal-open {
@@ -138,4 +145,10 @@
   .container-lg {
     @apply w-full mx-auto max-w-[1490px];
   }
+}
+
+body {
+  margin : 0;
+  padding: 0;
+  font-family: SUIT;
 }

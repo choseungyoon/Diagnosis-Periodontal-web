@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import { Noto_Sans } from "next/font/google";
+import { Patua_One } from "next/font/google";
 
-const noto = Noto_Sans({
-  subsets: ["latin"], // 또는 preload: false
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+const patuaOne = Patua_One({
+  weight: ["400"],
+  subsets: ["latin"],
 });
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Easy PerioDet",
@@ -22,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${noto.className} `}>{children}</body>
+      <body className={patuaOne.className}>{children}</body>
     </html>
   );
 }

@@ -29,8 +29,8 @@ export default function Header({ ...props }: Props) {
             <Link href="#" className="lg:text-[13px]">
               <Heading
                 size="headings"
-                as="h6"
-                className="text-[16px] font-extrabold capitalize text-white-a700"
+                as="h3"
+                className="text-[16px] capitalize text-white-a700 font-sans font-normal"
               >
                 Home
               </Heading>
@@ -40,8 +40,8 @@ export default function Header({ ...props }: Props) {
             <Link href="/diagnosis" className="lg:text-[13px]">
               <Heading
                 size="headings"
-                as="h6"
-                className="text-[16px] font-extrabold capitalize text-white-a700"
+                as="h3"
+                className="text-[16px] capitalize text-white-a700 font-sans font-normal"
               >
                 Diagnosis
               </Heading>
@@ -51,7 +51,7 @@ export default function Header({ ...props }: Props) {
         <div className="flex items-center justify-between gap-5">
           <div className="flex gap-2">
             <div>
-              <span className="text-white-a700 font-bold underline underline-offset-4">
+              <span className="text-white-a700 font-bold underline underline-offset-4 font-sans">
                 KR
               </span>
             </div>
@@ -59,12 +59,14 @@ export default function Header({ ...props }: Props) {
               <span className="text-white-a700_33">|</span>
             </div>
             <div>
-              <span className="text-white-a700 ">EN</span>
+              <span className="text-white-a700 font-sans font-normal">EN</span>
             </div>
           </div>
           <div>
             <div className="px-3 py-1 border border-none bg-blue-400 text-center rounded-md bg-opacity-25">
-              <button className="text-white-a700 font-extrabold">Login</button>
+              <button className="text-white-a700 font-extrabold font-sans">
+                Login
+              </button>
             </div>
           </div>
         </div>

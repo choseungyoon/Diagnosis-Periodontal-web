@@ -153,9 +153,13 @@ export default function ReportResultPage() {
         return (
           <div className="flex gap-5 items-center">
             <div className="bg-red-500 rounded-lg p-1">
-              <CheckIcon className="h-6 w-6 text-white-a700 font-semibold"></CheckIcon>
+              <Img
+                src="result/img_icon_periodontitis.png"
+                width={30}
+                height={30}
+              ></Img>
             </div>
-            <span className="justify-center text-center w-1/2 inline-flex items-center rounded-md  px-2 py-2 text-xl font-semibold font-sans text-red-700 ">
+            <span className="justify-center text-center w-1/2 inline-flex items-center rounded-md  px-2 py-2 text-xl font-semibold font-sans text-[#E35455] ">
               Periodontitis
             </span>
           </div>
@@ -164,9 +168,13 @@ export default function ReportResultPage() {
         return (
           <div className="flex gap-3 items-center">
             <div className=" bg-yellow-400 rounded-lg p-1">
-              <CheckIcon className="h-6 w-6 text-white-a700 font-semibold"></CheckIcon>
+              <Img
+                src="result/img_icon_gingivitis.png"
+                width={30}
+                height={30}
+              ></Img>
             </div>
-            <span className="justify-center text-center w-1/2 inline-flex items-center rounded-md  px-2 py-2 text-xl font-semibold font-sans text-yellow-500">
+            <span className="justify-center text-center w-1/2 inline-flex items-center rounded-md  px-2 py-2 text-xl font-semibold font-sans text-[#FFA307]">
               Gingivitis
             </span>
           </div>
@@ -175,9 +183,13 @@ export default function ReportResultPage() {
         return (
           <div className="flex gap-3 items-center">
             <div className=" bg-blue-500 rounded-lg p-1">
-              <CheckIcon className="h-6 w-6 text-white-a700 font-semibold"></CheckIcon>
+              <Img
+                src="result/img_icon_normal.png"
+                width={30}
+                height={30}
+              ></Img>
             </div>
-            <span className="justify-center text-center w-1/2 inline-flex items-center rounded-md  px-2 py-2 text-xl font-semibold font-sans text-blue-700 ">
+            <span className="justify-center text-center w-1/2 inline-flex items-center rounded-md  px-2 py-2 text-xl font-semibold font-sans text-[#007AFD] ">
               Normal
             </span>
           </div>

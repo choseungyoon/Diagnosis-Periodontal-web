@@ -12,6 +12,7 @@ import {
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Img } from "./Img";
 
 interface Result {
   id: number;
@@ -49,29 +50,53 @@ export default function ResultModal({
     switch (value) {
       case "periodontitis":
         return (
-          <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-            <ExclamationTriangleIcon
-              className="h-6 w-6 text-red-600"
-              aria-hidden="true"
-            />
+          <div className="mx-auto flex flex-col justify-center flex-shrink-0 items-center rounded-full">
+            <div>
+              <Img
+                src="result/img_icon_periodontitis.png"
+                width={60}
+                height={60}
+              ></Img>
+            </div>
+            <div>
+              <span className="font-semibold font-sans text-3xl text-[#E35455]">
+                Periodontitis
+              </span>
+            </div>
           </div>
         );
       case "gingivitis":
         return (
-          <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
-            <BellAlertIcon
-              className="h-6 w-6 text-yellow-600"
-              aria-hidden="true"
-            />
+          <div className="mx-auto flex flex-col justify-center flex-shrink-0 items-center rounded-full">
+            <div>
+              <Img
+                src="result/img_icon_gingivitis.png"
+                width={60}
+                height={60}
+              ></Img>
+            </div>
+            <div>
+              <span className="font-semibold font-sans text-3xl text-[#FFA307]">
+                Gingivitis
+              </span>
+            </div>
           </div>
         );
       case "normal":
         return (
-          <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-            <CheckCircleIcon
-              className="h-6 w-6 text-green-600"
-              aria-hidden="true"
-            />
+          <div className="mx-auto flex flex-col justify-center flex-shrink-0 items-center rounded-full">
+            <div>
+              <Img
+                src="result/img_icon_normal.png"
+                width={60}
+                height={60}
+              ></Img>
+            </div>
+            <div>
+              <span className="font-semibold font-sans text-3xl text-[#007AFD]">
+                Normal
+              </span>
+            </div>
           </div>
         );
       default:
@@ -96,7 +121,7 @@ export default function ResultModal({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 bg-black-900_7 bg-opacity-50 transition-opacity" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -110,34 +135,25 @@ export default function ResultModal({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white-a700 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md">
+                <div className="bg-white-a700 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                   <div className="pb-5">
                     <Slider {...sliderSettings}>
                       {disanosisResults.map((result, index) => (
                         <div key={index}>
-                          <div className="flex items-center pb-3">
-                            {renderContent(result.predictedResult)}
-                            <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                              <DialogTitle
-                                as="h3"
-                                className="text-xl font-semibold leading-6 text-gray-900"
-                              >
-                                {result.predictedResult.toUpperCase()}
-                              </DialogTitle>
-                            </div>
+                          <div className="flex flex-col items-center pb-3 justify-center gap-2">
+                            <div> {renderContent(result.predictedResult)}</div>
                           </div>
 
-                          <h3 className="text-base font-semibold">{`File: ${result.userName}`}</h3>
-                          <div className="mt-2">
-                            <p className="text-sm text-gray-500">
+                          <div className="p-5 border border-none bg-gray-300 bg-opacity-20 rounded-md text-center">
+                            <p className="text-sm text-gray-700_01 font-sans">
                               Your diagnostic result is{" "}
-                              <span className="font-semibold">
+                              <span className="font-semibold font-sans">
                                 {result.predictedResult}
                               </span>
                               .
                             </p>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-700_01 font-sans">
                               These results were determined by an AI model, and
                               for a more detailed explanation, please consult
                               with your physician.
@@ -149,22 +165,27 @@ export default function ResultModal({
                   </div>
                 </div>
 
-                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                  <button
-                    type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-purple-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-400 sm:ml-3 sm:w-auto"
-                    onClick={handleResultButtonClick}
-                  >
-                    Go to result
-                  </button>
-                  <button
-                    type="button"
-                    className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                    onClick={onClose}
-                    data-autofocus
-                  >
-                    Cancel
-                  </button>
+                <div className=" bg-white-a700 px-4 py-3 flex justify-between gap-3">
+                  <div className="rounded-md w-1/2 flex justify-center py-2 items-center">
+                    <button
+                      type="button"
+                      className="mt-3 inline-flex w-full justify-center rounded-md bg-white-a700 px-3 py-4 font-sans font-semibold text-gray-900 border-gray-300 border hover:bg-gray-100"
+                      onClick={onClose}
+                      data-autofocus
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  <div className="rounded-md w-1/2 flex justify-center py-2 items-center">
+                    {" "}
+                    <button
+                      type="button"
+                      className="mt-3 inline-flex w-full justify-center rounded-md bg-[#0081BF] px-3 py-4 font-sans font-semibold text-white-a700   hover:bg-[#8dc8e3]"
+                      onClick={handleResultButtonClick}
+                    >
+                      Go to result
+                    </button>
+                  </div>
                 </div>
               </Dialog.Panel>
             </Transition.Child>

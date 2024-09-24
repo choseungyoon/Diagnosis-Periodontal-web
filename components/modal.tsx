@@ -6,6 +6,7 @@ import {
   CogIcon,
   ArrowPathIcon,
 } from "@heroicons/react/24/outline";
+import { Img } from "./Img";
 
 interface ModalProps {
   isOpen: boolean;
@@ -60,23 +61,36 @@ export default function Modal({
   const progressPercentage = (currentStep / 4) * 100;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 *:font-serif">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full animate-modal-open">
-        <h2 className="text-xl font-bold mb-4">
-          Processing - {currenctFileName}
-        </h2>
+    <div className="fixed inset-0 bg-black-900_7 bg-opacity-50 flex items-center justify-center z-50 *:font-serif w-full">
+      <div className="bg-white-a700 py-10 px-5 rounded-lg shadow-lg max-w-lg w-full animate-modal-open flex flex-col gap-2">
+        <div className="border items-center flex self-start justify-start border-slate-200 rounded-md p-2">
+          <span className="font-sans text-xl font-semibold">AI</span>
+        </div>
+        <div>
+          <h2 className="text-xl font-semibold mb-4 font-sans">
+            Altificial Intelligence analysis in progress
+          </h2>
+        </div>
+        <div className="flex gap-3 items-center">
+          <div>
+            <Img src="img_excel_icon.png" width={36} height={36}></Img>
+          </div>
+          <div>
+            <span className="font-sans">{currenctFileName}</span>
+          </div>
+        </div>
         <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
           <div
-            className="bg-blue-600 h-2.5 rounded-full"
+            className="bg-light_blue-800 h-2.5 rounded-full"
             style={{ width: `${progressPercentage}%` }}
           ></div>
         </div>
-        <div className="mb-4">{renderContent()}</div>
+        <div className="mb-4 font-sans">{renderContent()}</div>
         <button
           onClick={onClose}
-          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+          className="px-4 py-2 rounded-md hover:bg-red-300 border-gray-100 border self-end w-1/4 font-sans"
         >
-          Close
+          Cancel
         </button>
       </div>
     </div>

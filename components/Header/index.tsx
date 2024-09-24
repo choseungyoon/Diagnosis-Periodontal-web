@@ -31,7 +31,7 @@ export default function Header({ ...props }: Props) {
               <Heading
                 size="headings"
                 as="h3"
-                className={`text-[16px] capitalize text-white-a700 font-sans font-normal ${props.textColor}`}
+                className={`text-[16px] capitalize text-white-a700 font-sans  ${props.textColor}`}
               >
                 Home
               </Heading>
@@ -42,7 +42,7 @@ export default function Header({ ...props }: Props) {
               <Heading
                 size="headings"
                 as="h3"
-                className="text-[16px] capitalize text-white-a700 font-sans font-normal"
+                className="text-[16px] capitalize text-white-a700 font-sans"
               >
                 Diagnosis
               </Heading>

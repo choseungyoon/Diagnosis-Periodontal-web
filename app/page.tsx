@@ -10,8 +10,8 @@ export default function MainPage() {
   return (
     <div className="w-full bg-indigo-900">
       <Header
-        className="border-white-a700_33"
-        textColor="text-white-a700"
+        className="border-white-a700_33 font-bold"
+        textColor="text-white-a700 font-bold"
       ></Header>
       <div className="flex items-start justify-end px-16">
         <div className="relative z-[6] mt-[290px] flex w-[38%] flex-col items-start gap-20 lg:gap-20 md:w-full md:gap-[60px] md:px-5 sm:gap-10">

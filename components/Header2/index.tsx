@@ -73,9 +73,13 @@ export default function Header({ ...props }: Props) {
           </div>
           <div>
             <div className="px-3 py-1 border border-none bg-light_blue-800 text-center rounded-md bg-opacity-50">
-              <button className="text-white-a700 font-extrabold font-sans">
-                Login
-              </button>
+              <Link href="/login">
+                <div>
+                  <button className="text-white-a700 font-extrabold font-sans">
+                    Login
+                  </button>
+                </div>
+              </Link>
             </div>
           </div>
         </div>

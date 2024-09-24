@@ -16,13 +16,15 @@ export default function Header({ ...props }: Props) {
     >
       <div className="flex justify-between items-center w-full gap-10 px-5">
         <div className="flex items-center">
-          <Img
-            src="img_header_logo.png"
-            width={200}
-            height={30}
-            alt="Headerlogo"
-            className="h-[30px] w-[200px] object-contain"
-          ></Img>
+          <Link href={"http://basilbiotech.com/"} target="_blank">
+            <Img
+              src="img_header_logo.png"
+              width={200}
+              height={30}
+              alt="Headerlogo"
+              className="h-[30px] w-[200px] object-contain"
+            ></Img>
+          </Link>
         </div>
         <div className="flex gap-10">
           {" "}

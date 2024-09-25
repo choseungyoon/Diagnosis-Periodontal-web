@@ -242,9 +242,9 @@ const DiagnosisPage = () => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(event.target.files || []);
 
-    // const tsvFiles = selectedFiles.filter(
-    //   (file) => file.type === "text/tab-separated-values"
-    // );
+    const tsvFiles = selectedFiles.filter(
+      (file) => file.type === "text/tab-separated-values"
+    );
 
     const excelFiles = selectedFiles.filter(
       (file) =>
@@ -253,7 +253,7 @@ const DiagnosisPage = () => {
     );
 
     if (excelFiles) setFiles((prevFiles) => [...prevFiles, ...excelFiles]);
-    // if (tsvFiles) setFiles((prevFiles) => [...prevFiles, ...tsvFiles]);
+    if (tsvFiles) setFiles((prevFiles) => [...prevFiles, ...tsvFiles]);
   };
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
@@ -349,11 +349,19 @@ const DiagnosisPage = () => {
                       >
                         <div className="flex gap-5 items-center">
                           <div>
-                            <Img
-                              src="img_excel_icon.png"
-                              width={36}
-                              height={36}
-                            ></Img>
+                            {file.name.endsWith(".tsv") ? (
+                              <Img
+                                src="img_tsv_icon.png"
+                                width={36}
+                                height={36}
+                              ></Img>
+                            ) : (
+                              <Img
+                                src="img_excel_icon.png"
+                                width={36}
+                                height={36}
+                              ></Img>
+                            )}
                           </div>
                           <div>
                             <span>{file.name}</span>

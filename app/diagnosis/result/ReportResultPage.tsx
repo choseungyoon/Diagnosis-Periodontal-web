@@ -16,6 +16,8 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartEvent,
+  ActiveElement,
 } from "chart.js";
 import { PrismaClient } from "@prisma/client";
 
@@ -119,14 +121,14 @@ export default function ReportResultPage() {
           (f) => `rgba(75, 192, 192, ${f.importance * 50})`
         ),
         borderColor: features.map((f) => `rgba(75, 192, 192, 1)`),
-        borderWidth: 1,
+        borderWidth: 2,
       },
       {
         label: "Abundance",
         data: features.map((f) => f.abundance),
         backgroundColor: features.map((f) => `#0081BF`),
         borderColor: features.map((f) => `#0081BF`),
-        borderWidth: 1,
+        borderWidth: 2,
       },
     ],
   };

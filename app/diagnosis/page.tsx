@@ -241,12 +241,19 @@ const DiagnosisPage = () => {
   };
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(event.target.files || []);
+
+    // const tsvFiles = selectedFiles.filter(
+    //   (file) => file.type === "text/tab-separated-values"
+    // );
+
     const excelFiles = selectedFiles.filter(
       (file) =>
         file.type ===
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     );
-    setFiles((prevFiles) => [...prevFiles, ...excelFiles]);
+
+    if (excelFiles) setFiles((prevFiles) => [...prevFiles, ...excelFiles]);
+    // if (tsvFiles) setFiles((prevFiles) => [...prevFiles, ...tsvFiles]);
   };
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
@@ -324,7 +331,7 @@ const DiagnosisPage = () => {
                   <input
                     id="dropzone-file"
                     type="file"
-                    accept=".xlsx"
+                    accept=".xlsx,.tsv"
                     className="hidden"
                     multiple
                     onChange={handleFileChange}

@@ -124,10 +124,8 @@ export default function ReportResultPage() {
       {
         label: "Abundance",
         data: features.map((f) => f.abundance),
-        backgroundColor: features.map(
-          (f) => `rgba(153, 102, 255, ${f.importance * 50})`
-        ),
-        borderColor: features.map((f) => `rgba(153, 102, 255, 1)`),
+        backgroundColor: features.map((f) => `#0081BF`),
+        borderColor: features.map((f) => `#0081BF`),
         borderWidth: 1,
       },
     ],

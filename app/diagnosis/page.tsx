@@ -325,7 +325,7 @@ const DiagnosisPage = () => {
                       or drag and drop
                     </p>
                     <p className="text-sm text-red-500 dark:text-gray-400">
-                      Only Excel file is Allowed.
+                      Only Excel, Tsv file are Allowed(.xslx, .tsv)
                     </p>
                   </div>
                   <input

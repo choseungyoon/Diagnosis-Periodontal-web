@@ -298,10 +298,13 @@ export default function ReportResultPage() {
               <div>
                 <span className="font-sans text-gray-400">Statistics</span>
               </div>
-              <div>
+              <div className="flex flex-col gap-2">
                 {" "}
                 <span className="text-xl font-sans">
                   Top 10 Important Proteins
+                </span>
+                <span className="font-sans text-base ">
+                  Click chart to view detailed protein information
                 </span>
               </div>
             </div>

@@ -1,13 +1,15 @@
 "use client";
 import { Heading } from "@/components/Heading";
 import { Img } from "@/components/Img";
-import React from "react";
+import React, { useRef } from "react";
 
 import { useEffect, useState, Suspense } from "react";
 import { CheckIcon } from "@heroicons/react/24/solid";
 import { Dialog } from "@headlessui/react";
 import { useSearchParams } from "next/navigation";
 import { Bar } from "react-chartjs-2";
+import { Chart as ChartJSInstance } from "react-chartjs-2";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -18,6 +20,7 @@ import {
   Legend,
   ChartEvent,
   ActiveElement,
+  ChartOptions,
 } from "chart.js";
 import { PrismaClient } from "@prisma/client";
 
@@ -60,6 +63,8 @@ const navigation = [
 const db = new PrismaClient();
 
 export default function ReportResultPage() {
+  const chartRef = useRef<ChartJS<"bar"> | null>(null); // 초기값을 null로 설정
+
   const searchParams = useSearchParams();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
@@ -199,6 +204,49 @@ export default function ReportResultPage() {
     }
   };
 
+  const data = {
+    labels: ["P61626", "P05164", "P04264"],
+    datasets: [
+      {
+        label: "Importance",
+        data: [0.02, 0.018, 0.016],
+        backgroundColor: "rgba(75,192,192,0.4)",
+      },
+    ],
+  };
+
+  const options: ChartOptions<"bar"> = {
+    indexAxis: "y",
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (tooltipItem) => `Value: ${tooltipItem.raw}`,
+        },
+      },
+    },
+  };
+
+  const handleClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    const chart = chartRef.current;
+    if (chart) {
+      // 클릭 이벤트가 발생한 데이터 요소를 가져옴
+      const elements = chart.getElementsAtEventForMode(
+        event.nativeEvent,
+        "nearest",
+        { intersect: true },
+        false
+      );
+      if (elements.length > 0) {
+        const elementIndex = elements[0].index;
+        const label = chart.data.labels ? chart.data.labels[elementIndex] : "";
+        window.open(
+          `https://www.uniprot.org/uniprotkb/${label}/entry`,
+          "_blank"
+        );
+      }
+    }
+  };
+
   return (
     <div className="mb-1 flex justify-end pl-14 pr-[126px] lg:pr-8 md:px-5 sm:px-4">
       <div className="flex w-[88%] flex-col gap-5 lg:w-full md:w-full">
@@ -257,8 +305,14 @@ export default function ReportResultPage() {
                 </span>
               </div>
             </div>
+
             <div className="pt-5 w-full h-full">
-              <Bar data={chartData} options={chartOptions} />
+              <Bar
+                ref={chartRef}
+                data={chartData}
+                options={chartOptions}
+                onClick={handleClick}
+              />
             </div>
           </div>
         </div>

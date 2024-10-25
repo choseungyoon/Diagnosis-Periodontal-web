@@ -7,14 +7,28 @@ export async function GET(request: Request) {
 
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get('page') || '1', 10);
+  const library = (url.searchParams.get('library') || 'Default');
+  
+  console.log(url)
+  console.log(library)
   const pageSize = 10;
   const skip = (page - 1) * pageSize;
   
   try {
+
+    const libraryId  = await db.library.findFirst({
+      where : {title : library},
+      select : {id : true}
+    })
+    console.log(libraryId)
+
     const results = await db.result.findMany({
         skip,
         take: pageSize,
         include: { protein: true },
+        where : {
+          libraryId : libraryId?.id ? libraryId.id : 1
+        },
         orderBy : [
           {
             id : "desc"

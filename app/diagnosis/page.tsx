@@ -46,6 +46,10 @@ interface TempResult {
   predictedResult: string;
 }
 
+interface Library {
+  title: string;
+}
+
 const DiagnosisPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isResultModalOpen, setIsResultModalOpen] = useState(false);
@@ -62,6 +66,7 @@ const DiagnosisPage = () => {
   const [results, setResults] = useState<Result[] | null>(null);
   const [result, setResult] = useState<Result | null>(null);
 
+  const [libraries, setLibraries] = useState<Library[]>([]);
   const [selectedLibrary, setSelectedLibrary] = useState<string | null>(
     "Default"
   );
@@ -181,7 +186,9 @@ const DiagnosisPage = () => {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const response = await fetch(`/api/getAllResult?page=${currentPage}`);
+        const response = await fetch(
+          `/api/getAllResult?page=${currentPage}&library=${selectedLibrary}`
+        );
         if (response.ok) {
           const data = await response.json();
           setResults(data.results);
@@ -195,7 +202,22 @@ const DiagnosisPage = () => {
       }
     };
     fetchResults();
-  }, [currentPage]);
+  }, [currentPage, selectedLibrary]);
+
+  useEffect(() => {
+    const fetchLibraries = async () => {
+      try {
+        const response = await fetch("/api/getLibrary");
+        if (response.ok) {
+          const data = await response.json();
+          setLibraries(data.libraries);
+        }
+      } catch (error) {
+        console.error("Failed to fetch libraries", error);
+      }
+    };
+    fetchLibraries();
+  }, []);
 
   const totalPages = Math.ceil(totalResults / pageSize);
 
@@ -291,6 +313,10 @@ const DiagnosisPage = () => {
 
   const removeFile = (index: number) => {
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  };
+
+  const handleLibrarySelect = (title: string) => {
+    setSelectedLibrary(title);
   };
 
   return (
@@ -553,7 +579,24 @@ const DiagnosisPage = () => {
           <div>
             <span className="font-semibold text-3xl">History</span>
           </div>
-          <div className="py-10">
+          <div className="flex gap-2 py-5">
+            {libraries != null &&
+              libraries.map((lib, index) => (
+                <button
+                  className={`px-7 py-1 rounded-xl
+                  ${
+                    selectedLibrary === lib.title
+                      ? "bg-[#0081BF] text-white-a700"
+                      : "bg-white-a700 border border-gray-300 "
+                  }
+                  `}
+                  onClick={() => handleLibrarySelect(lib.title)}
+                >
+                  <span>{lib.title}</span>
+                </button>
+              ))}
+          </div>
+          <div className="py-2">
             <table className="min-w-full bg-white table-auto border-separate rounded-lg border-2 overflow-hidden border-gray-100">
               <thead>
                 <tr>

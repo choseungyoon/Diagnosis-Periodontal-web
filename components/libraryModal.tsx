@@ -32,10 +32,12 @@ export default function LibraryModal({
       }
 
       const fetchLibraries = async () => {
+        console.log("Fetch");
         try {
           const response = await fetch("/api/getLibrary");
           if (response.ok) {
             const data = await response.json();
+            console.log(data);
             setLibraries(data.libraries);
           }
         } catch (error) {

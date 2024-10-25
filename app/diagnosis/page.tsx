@@ -12,6 +12,7 @@ import ResultModal from "@/components/resultModal";
 import Header from "@/components/Header2";
 import { Img } from "@/components/Img";
 import Image from "next/image";
+import LibraryModal from "@/components/libraryMoeal";
 
 const navigation = [
   { name: "HOME", href: "/" },
@@ -48,6 +49,7 @@ interface TempResult {
 const DiagnosisPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isResultModalOpen, setIsResultModalOpen] = useState(false);
+  const [isLibraryModalOpen, setIsLibraryModalOpen] = useState(false);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -58,8 +60,11 @@ const DiagnosisPage = () => {
   const [apiResponse, setApiResponse] = useState<string[]>([]);
 
   const [results, setResults] = useState<Result[] | null>(null);
-
   const [result, setResult] = useState<Result | null>(null);
+
+  const [selectedLibrary, setSelectedLibrary] = useState<string | null>(
+    "Default"
+  );
 
   const [disanosisResults, setDisanosisResults] = useState<TempResult[]>([]);
 
@@ -80,11 +85,18 @@ const DiagnosisPage = () => {
     setApiResponse(apiRefs);
   };
 
+  const openLibraryModel = () => {
+    setIsLibraryModalOpen(true);
+  };
   const closeResultModal = () => {
     setIsResultModalOpen(false);
     setFiles([]);
     setApiResponse([]);
     setDisanosisResults([]);
+  };
+
+  const closeLibraryResultModal = () => {
+    setIsLibraryModalOpen(false);
   };
 
   const closeModal = () => {
@@ -97,6 +109,12 @@ const DiagnosisPage = () => {
 
   const handleResultButtonClick = (id: number) => {
     window.open(`/diagnosis/result?resultId=${id}`, "_blank");
+  };
+
+  // LibraryModal에서 저장 버튼을 클릭했을 때 실행되는 콜백 함수
+  const handleSaveLibrary = (library: string | null) => {
+    setSelectedLibrary(library);
+    closeLibraryResultModal();
   };
 
   useEffect(() => {
@@ -118,6 +136,7 @@ const DiagnosisPage = () => {
                 userName: files[idx] ? files[idx].name : "Anonymous", // 예시 값, 실제 사용자 이름으로 변경
                 predictedResult: resultData.predicted_result,
                 proteins: resultData.important_proteins,
+                library: selectedLibrary,
               }),
             });
 
@@ -160,7 +179,6 @@ const DiagnosisPage = () => {
   }, [isModalOpen, currentStep, apiResponse]);
 
   useEffect(() => {
-    console.log(currentPage);
     const fetchResults = async () => {
       try {
         const response = await fetch(`/api/getAllResult?page=${currentPage}`);
@@ -340,7 +358,23 @@ const DiagnosisPage = () => {
               </div>
               {files.length > 0 && (
                 <div className="mt-4 w-full bg-white pt-5">
-                  <span className="text-xl">Selected Files</span>
+                  <div className="flex justify-between text-center items-center">
+                    <div className="flex text-center">
+                      {" "}
+                      <span className="text-xl">Selected Files</span>
+                    </div>{" "}
+                    <div className="flex text-center gap-1 items-center">
+                      {" "}
+                      <span className="text-md">Saved at :</span>
+                      <button
+                        className={`px-2 py-1 rounded text-md ${"px-2 underline transition-colors hover:bg-slate-300"}`}
+                        onClick={openLibraryModel}
+                      >
+                        {selectedLibrary}
+                      </button>
+                    </div>
+                  </div>
+
                   <ul className="pt-5">
                     {files.map((file, index) => (
                       <li
@@ -600,6 +634,14 @@ const DiagnosisPage = () => {
         resultId={result?.id}
         disanosisResults={disanosisResults}
       ></ResultModal>
+
+      {/* LibraryModal 컴포넌트 */}
+      <LibraryModal
+        isOpen={isLibraryModalOpen}
+        onClose={closeLibraryResultModal}
+        onSave={handleSaveLibrary} // 저장된 라이브러리 값을 받는 콜백
+        initialTitle={selectedLibrary || ""} // 선택된 라이브러리를 초기값으로 전달
+      />
     </div>
   );
 };

@@ -6,15 +6,26 @@ const db = new PrismaClient();
 
 export async function POST(request: Request) {
     const body = await request.json();
-    const { userName, predictedResult, proteins } = body;
+    const { userName, predictedResult, proteins,library } = body;
   
     console.log('Received data:', { userName, predictedResult, proteins });
   
+
+    const libraryId = await db.library.findMany({
+        where : {title: library},
+        select : {id:true}
+    });
+  
+    if (!libraryId) {
+      throw new Error("Library not found");
+    }
+
     try {
       const result = await db.result.create({
         data: {
           userName,
           predictedResult,
+          libraryId : libraryId[0].id,
           protein: {
             create: proteins.map((protein: any) => ({
                 protein: protein.protein,

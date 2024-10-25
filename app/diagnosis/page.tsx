@@ -12,7 +12,7 @@ import ResultModal from "@/components/resultModal";
 import Header from "@/components/Header2";
 import { Img } from "@/components/Img";
 import Image from "next/image";
-import LibraryModal from "@/components/libraryMoeal";
+import LibraryModal from "@/components/libraryModal";
 
 const navigation = [
   { name: "HOME", href: "/" },

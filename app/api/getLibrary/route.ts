@@ -1,13 +1,13 @@
 "use server";
 import { NextResponse } from 'next/server';
 import { PrismaClient } from "@prisma/client";
-import { id } from 'date-fns/locale';
 
 const db = new PrismaClient({
     log: ["query", "info", "warn", "error"],
   });
 
-export async function GET(){
+export async function GET(request: Request){
+    const url = new URL(request.url);
     console.log("GET LIBRARY")
     try{
         const libraries = await db.library.findMany({
@@ -17,7 +17,7 @@ export async function GET(){
             }
         })
         console.log(libraries)
-        return NextResponse.json({libraries},{status:200})
+        return NextResponse.json({libraries},{status:200});
     }
     catch(error){
         console.error('Error fetching library:', error);

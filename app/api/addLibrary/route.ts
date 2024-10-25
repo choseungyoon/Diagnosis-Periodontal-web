@@ -16,7 +16,7 @@ export async function POST (request:Request) {
         })
 
         console.log('Result saved:', newLibrary);
-        return NextResponse.json({ status: 200 });
+        return NextResponse.json({newLibrary},{ status: 200 });
     }
     catch(error) {
         console.error('Error saving result:', error);

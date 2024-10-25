@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Img } from "./Img";
 
 interface LibraryModalProps {
   isOpen: boolean;
@@ -8,6 +9,7 @@ interface LibraryModalProps {
 }
 
 interface Library {
+  id: number;
   title: string;
 }
 
@@ -21,6 +23,7 @@ export default function LibraryModal({
   const [selectedLibrary, setSelectedLibrary] = useState<string | null>(null);
   const [isAddingNew, setIsAddingNew] = useState(false);
   const [newLibraryTitle, setNewLibraryTitle] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (isOpen) {
@@ -38,13 +41,26 @@ export default function LibraryModal({
       };
       fetchLibraries();
     }
-  }, [isOpen]);
+  }, [isOpen, initialTitle, libraries]);
 
   const handleLibrarySelect = (title: string) => {
     setSelectedLibrary(title);
   };
 
   const handleNewLibraryAdd = async () => {
+    if (newLibraryTitle.trim().length > 15) {
+      setErrorMessage("Library title must be 15 characters or less.");
+      return;
+    }
+    if (libraries.some((library) => library.title === newLibraryTitle.trim())) {
+      setErrorMessage("Library title already exists.");
+      return;
+    }
+    if (libraries.length >= 10) {
+      setErrorMessage("Maximum of 10 libraries allowed.");
+      return;
+    }
+
     if (newLibraryTitle.trim()) {
       try {
         const response = await fetch("/api/addLibrary", {
@@ -53,7 +69,9 @@ export default function LibraryModal({
           body: JSON.stringify({ title: newLibraryTitle }),
         });
         if (response.ok) {
-          setLibraries([...libraries, { title: newLibraryTitle }]);
+          const data = await response.json();
+          console.log(data);
+          setLibraries([...libraries, { title: data.title, id: data.id }]);
           setNewLibraryTitle("");
           setIsAddingNew(false);
           console.log(libraries);
@@ -67,6 +85,25 @@ export default function LibraryModal({
   const handleSave = () => {
     onSave(selectedLibrary); // Save 버튼 클릭 시 선택된 라이브러리를 반환
     onClose();
+  };
+
+  const handleLibraryDelete = async (id: number) => {
+    try {
+      const response = await fetch(`/api/deleteLibrary?id=${id}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        setLibraries(libraries.filter((library) => library.id !== id));
+        if (
+          selectedLibrary &&
+          selectedLibrary === libraries.find((lib) => lib.id === id)?.title
+        ) {
+          setSelectedLibrary(null);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to delete library", error);
+    }
   };
 
   if (!isOpen) return null;
@@ -101,7 +138,18 @@ export default function LibraryModal({
                 } cursor-pointer`}
                 onClick={() => handleLibrarySelect(library.title)}
               >
-                <span className="font-bold">{library.title}</span>
+                <div className="flex items-center justify-between">
+                  <span className="font-bold">{library.title}</span>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleLibraryDelete(library.id);
+                    }}
+                    className="text-gray-500 hover:text-red-600"
+                  >
+                    <Img src="img_close.png" width={24} height={24}></Img>
+                  </button>
+                </div>
               </li>
             ))}
           <li className="pt-5">

@@ -1,25 +1,15 @@
 "use client";
 
 import axios from "axios";
-import { SetStateAction, useActionState, useEffect, useState } from "react";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import React from "react";
 import Modal from "@/components/modal";
-import { PrismaClient } from "@prisma/client";
 import { format } from "date-fns";
 import ResultModal from "@/components/resultModal";
 import Header from "@/components/Header2";
 import { Img } from "@/components/Img";
-import Image from "next/image";
 import LibraryModal from "@/components/libraryModal";
-
-const navigation = [
-  { name: "HOME", href: "/" },
-  { name: "DIAGNOSIS", href: "/diagnosis" },
-];
-
-const db = new PrismaClient();
 
 interface Protein {
   protein: string;
@@ -54,8 +44,6 @@ const DiagnosisPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isResultModalOpen, setIsResultModalOpen] = useState(false);
   const [isLibraryModalOpen, setIsLibraryModalOpen] = useState(false);
-
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const [files, setFiles] = useState<File[]>([]);
   const [currentFile, setCurrentFile] = useState<File>();

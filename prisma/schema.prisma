@@ -18,17 +18,15 @@ model result {
   id              Int       @id @default(autoincrement())
   userName        String
   predictedResult String
-  library         library   @relation(fields: [libraryId], references: [id], onDelete: Cascade)
+  library         String    @default("Default")
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   protein         protein[]
-  libraryId       Int       @default(1)
 }
 
 model library {
-  id     Int      @id @default(autoincrement())
-  title  String   @default("Default")
-  result result[]
+  id    Int    @id @default(autoincrement())
+  title String @default("Default")
 }
 
 model protein {

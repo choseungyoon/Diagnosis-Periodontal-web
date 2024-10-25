@@ -2,12 +2,7 @@
 import React from "react";
 
 import { useState, Fragment } from "react";
-import { Dialog, DialogTitle, Transition } from "@headlessui/react";
-import {
-  ExclamationTriangleIcon,
-  BellAlertIcon,
-  CheckCircleIcon,
-} from "@heroicons/react/24/outline";
+import { Dialog, Transition } from "@headlessui/react";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";

@@ -27,7 +27,7 @@ export async function GET(request: Request) {
         take: pageSize,
         include: { protein: true },
         where : {
-          libraryId : libraryId?.id ? libraryId.id : 1
+          library : library
         },
         orderBy : [
           {

@@ -207,7 +207,7 @@ const DiagnosisPage = () => {
       }
     };
     fetchLibraries();
-  }, [selectedLibrary]);
+  }, [isLibraryModalOpen]);
 
   const totalPages = Math.ceil(totalResults / pageSize);
 

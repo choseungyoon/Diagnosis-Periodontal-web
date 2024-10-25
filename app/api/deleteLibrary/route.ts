@@ -14,13 +14,26 @@ export async function DELETE (request:Request) {
     }
 
     try{
-        const response = await db.library.delete({
-            where : {
-                id : +libraryId
-            }
+
+        const getLibrary = await db.library.findUnique({
+            where : { id:+libraryId}
         })
 
-        return NextResponse.json(response, { status: 200 });
+        if(getLibrary){
+            const deleteResult = await db.result.deleteMany({
+                where: {
+                    library : getLibrary.title
+                }
+            })
+
+            const response = await db.library.delete({
+                where : {
+                    id : +libraryId
+                }
+            })
+        }
+        
+        return NextResponse.json({ status: 200 });
 
     }
     catch(error){

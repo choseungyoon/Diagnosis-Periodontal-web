@@ -32,12 +32,10 @@ export default function LibraryModal({
       }
 
       const fetchLibraries = async () => {
-        console.log("Fetch");
         try {
           const response = await fetch("/api/getLibrary");
           if (response.ok) {
             const data = await response.json();
-            console.log(data);
             setLibraries(data.libraries);
           }
         } catch (error) {
@@ -46,7 +44,7 @@ export default function LibraryModal({
       };
       fetchLibraries();
     }
-  }, [isOpen, initialTitle, isAddingNew]);
+  }, [isOpen, initialTitle]);
 
   const handleLibrarySelect = (title: string) => {
     setSelectedLibrary(title);
@@ -81,7 +79,6 @@ export default function LibraryModal({
           ]);
           setNewLibraryTitle("");
           setIsAddingNew(false);
-          console.log(libraries);
         }
       } catch (error) {
         console.error("Failed to add library", error);
@@ -94,7 +91,7 @@ export default function LibraryModal({
       alert("Select library");
       return;
     }
-    onSave(selectedLibrary); // Save 버튼 클릭 시 선택된 라이브러리를 반환
+    onSave(selectedLibrary);
     onClose();
   };
 
@@ -104,7 +101,9 @@ export default function LibraryModal({
         method: "DELETE",
       });
       if (response.ok) {
-        setLibraries(libraries.filter((library) => library.id !== id));
+        setLibraries((prevLibraries) =>
+          prevLibraries.filter((library) => library.id !== id)
+        );
         if (
           selectedLibrary &&
           selectedLibrary === libraries.find((lib) => lib.id === id)?.title
@@ -139,9 +138,9 @@ export default function LibraryModal({
 
         <ul className="space-y-2 mb-4">
           {libraries != null &&
-            libraries.map((library, index) => (
+            libraries.map((library) => (
               <li
-                key={index}
+                key={library.id}
                 className={`py-2 px-4 rounded-md border border-gray-100 ${
                   selectedLibrary === library.title
                     ? "bg-gray-300"

@@ -17,7 +17,7 @@ export async function GET(request: Request) {
         include: { protein: true },
         orderBy : [
           {
-            createdAt : "desc"
+            id : "desc"
           }
         ]
       });

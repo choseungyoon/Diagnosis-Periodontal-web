@@ -194,8 +194,10 @@ const DiagnosisPage = () => {
   }, [currentPage, selectedLibrary]);
 
   useEffect(() => {
+    console.log("Fetch library 1");
     const fetchLibraries = async () => {
       try {
+        console.log("Fetch library 2");
         const response = await fetch("/api/getLibrary");
         if (response.ok) {
           const data = await response.json();

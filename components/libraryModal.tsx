@@ -44,7 +44,7 @@ export default function LibraryModal({
       };
       fetchLibraries();
     }
-  }, [isOpen, initialTitle]);
+  }, [isOpen, initialTitle, isAddingNew]);
 
   const handleLibrarySelect = (title: string) => {
     setSelectedLibrary(title);

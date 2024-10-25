@@ -81,6 +81,7 @@ const DiagnosisPage = () => {
   const openLibraryModel = () => {
     setIsLibraryModalOpen(true);
   };
+
   const closeResultModal = () => {
     setIsResultModalOpen(false);
     setFiles([]);
@@ -199,13 +200,14 @@ const DiagnosisPage = () => {
         if (response.ok) {
           const data = await response.json();
           setLibraries(data.libraries);
+          console.log(libraries);
         }
       } catch (error) {
         console.error("Failed to fetch libraries", error);
       }
     };
     fetchLibraries();
-  }, []);
+  }, [selectedLibrary]);
 
   const totalPages = Math.ceil(totalResults / pageSize);
 

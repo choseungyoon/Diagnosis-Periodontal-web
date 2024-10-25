@@ -33,7 +33,11 @@ export default function LibraryModal({
 
       const fetchLibraries = async () => {
         try {
-          const response = await fetch("/api/getLibrary");
+          const response = await fetch("/api/getLibrary", {
+            headers: {
+              "Cache-Control": "no-store", // 캐시 방지 설정
+            },
+          });
           if (response.ok) {
             const data = await response.json();
             setLibraries(data.libraries);

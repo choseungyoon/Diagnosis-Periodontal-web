@@ -16,12 +16,6 @@ export async function GET(request: Request) {
   
   try {
 
-    const libraryId  = await db.library.findFirst({
-      where : {title : library},
-      select : {id : true}
-    })
-    console.log(libraryId)
-
     const results = await db.result.findMany({
         skip,
         take: pageSize,

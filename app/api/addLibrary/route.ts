@@ -1,9 +1,9 @@
 "use server"
 import { PrismaClient } from "@prisma/client";
-import { ca } from "date-fns/locale";
 import { NextResponse } from 'next/server';
-const db = new PrismaClient();
-
+const db = new PrismaClient({
+    log: ["query", "info", "warn", "error"],
+  });
 export async function POST (request:Request) {
     const body = await request.json();
     const { title } = body;

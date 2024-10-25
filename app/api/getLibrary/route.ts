@@ -2,7 +2,10 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from "@prisma/client";
 import { id } from 'date-fns/locale';
-const db = new PrismaClient();
+
+const db = new PrismaClient({
+    log: ["query", "info", "warn", "error"],
+  });
 
 export async function GET(){
     console.log("GET LIBRARY")
@@ -13,6 +16,7 @@ export async function GET(){
                 title : true
             }
         })
+        console.log(libraries)
         return NextResponse.json({libraries},{status:200})
     }
     catch(error){

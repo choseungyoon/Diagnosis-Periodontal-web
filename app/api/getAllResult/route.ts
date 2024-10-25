@@ -9,8 +9,6 @@ export async function GET(request: Request) {
   const page = parseInt(url.searchParams.get('page') || '1', 10);
   const library = (url.searchParams.get('library') || 'Default');
   
-  console.log(url)
-  console.log(library)
   const pageSize = 10;
   const skip = (page - 1) * pageSize;
   

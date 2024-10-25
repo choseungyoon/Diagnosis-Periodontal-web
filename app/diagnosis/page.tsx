@@ -54,7 +54,7 @@ const DiagnosisPage = () => {
   const [results, setResults] = useState<Result[] | null>(null);
   const [result, setResult] = useState<Result | null>(null);
 
-  const [libraries, setLibraries] = useState<Library[]>([]);
+  const [libraries, setLibraries] = useState<Library[] | null>(null);
   const [selectedLibrary, setSelectedLibrary] = useState<string | null>(
     "Default"
   );
@@ -194,15 +194,13 @@ const DiagnosisPage = () => {
   }, [currentPage, selectedLibrary]);
 
   useEffect(() => {
-    console.log("Fetch library 1");
     const fetchLibraries = async () => {
       try {
-        console.log("Fetch library 2");
         const response = await fetch("/api/getLibrary");
         if (response.ok) {
           const data = await response.json();
           setLibraries(data.libraries);
-          console.log(libraries);
+          console.log(await libraries);
         }
       } catch (error) {
         console.error("Failed to fetch libraries", error);

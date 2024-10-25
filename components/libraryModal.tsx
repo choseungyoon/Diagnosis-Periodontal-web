@@ -30,6 +30,7 @@ export default function LibraryModal({
       if (selectedLibrary == null) {
         setSelectedLibrary(initialTitle);
       }
+
       const fetchLibraries = async () => {
         try {
           const response = await fetch("/api/getLibrary");
@@ -43,7 +44,7 @@ export default function LibraryModal({
       };
       fetchLibraries();
     }
-  }, [isOpen, initialTitle, libraries]);
+  }, [isOpen, initialTitle]);
 
   const handleLibrarySelect = (title: string) => {
     setSelectedLibrary(title);
@@ -72,8 +73,10 @@ export default function LibraryModal({
         });
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
-          setLibraries([...libraries, { title: data.title, id: data.id }]);
+          setLibraries((prevLibraries) => [
+            ...prevLibraries,
+            { title: data.title, id: data.id },
+          ]);
           setNewLibraryTitle("");
           setIsAddingNew(false);
           console.log(libraries);

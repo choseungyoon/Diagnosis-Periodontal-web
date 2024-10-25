@@ -583,6 +583,7 @@ const DiagnosisPage = () => {
             {libraries != null &&
               libraries.map((lib, index) => (
                 <button
+                  key={index}
                   className={`px-7 py-1 rounded-xl
                   ${
                     selectedLibrary === lib.title

@@ -68,14 +68,17 @@ export default function LibraryModal({
       try {
         const response = await fetch("/api/addLibrary", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-store",
+          },
           body: JSON.stringify({ title: newLibraryTitle }),
         });
         if (response.ok) {
           const data = await response.json();
           setLibraries((prevLibraries) => [
             ...prevLibraries,
-            { title: data.title, id: data.id },
+            { title: newLibraryTitle, id: data.id },
           ]);
           setNewLibraryTitle("");
           setIsAddingNew(false);

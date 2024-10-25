@@ -27,7 +27,9 @@ export default function LibraryModal({
 
   useEffect(() => {
     if (isOpen) {
-      setSelectedLibrary(initialTitle); // 모달이 열릴 때 초기 타이틀 설정
+      if (selectedLibrary == null) {
+        setSelectedLibrary(initialTitle);
+      }
       const fetchLibraries = async () => {
         try {
           const response = await fetch("/api/getLibrary");
@@ -83,6 +85,10 @@ export default function LibraryModal({
   };
 
   const handleSave = () => {
+    if (selectedLibrary == null || selectedLibrary === "") {
+      alert("Select library");
+      return;
+    }
     onSave(selectedLibrary); // Save 버튼 클릭 시 선택된 라이브러리를 반환
     onClose();
   };
